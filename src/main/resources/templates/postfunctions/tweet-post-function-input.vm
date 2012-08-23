@@ -1,0 +1,22 @@
+<tr>
+<td colspan="2">
+	<div class="content-container expanded">
+		<div class="content-body aui-panel">
+			<div class="content">
+					<h2>$action.i18n.getText("jtp.postfunction.title")</h2>	
+					<div class="description">$action.i18n.getText("jtp.postfunction.description")</div>
+					
+					<fieldset>
+						<div class="wiki-edit-content">
+							<label for="tweetMessageTemplate">$action.i18n.getText("jtp.postfunction.tweetTemplate.label"):</label>
+				           	<textarea class="textarea long-field wiki-textfield long-field"  id="tweetMessageTemplate" name="tweetMessageTemplate" rows="12" wrap="virtual" style="width:300px;">
+				           		#if ($action.tweetMessageTemplate) $action.tweetMessageTemplate #end
+				           	</textarea> 
+					       	<div class="content-inner"></div> 
+				        </div>
+					</fieldset>
+			</div>
+		</div>
+	</div> 
+</td>
+</tr>

@@ -1,0 +1,77 @@
+<div id="x-divOptions" class="content-container expanded">
+	<div class="content-body aui-panel">
+		<div class="content">	
+			<h2>$action.i18n.getText("issuemail.form.mail.options")</h2>
+			<div class="description">$action.i18n.getText("issuemail.form.mail.options.desc")</div>
+			
+			<fieldset class="group">
+				<legend><span>Email settings</span></legend>			
+				<div class="checkbox">					
+					<input class="checkbox" id="addToWatchers" type="checkbox" name="addToWatchers" value="true" #if ($!action.emailOptions.addToWatchers) checked="checked" #end />
+					<label for="addToWatchers">$action.i18n.getText("issuemail.form.options.add.to.watchers")</label>
+				</div>
+				<div class="checkbox">					
+					<input class="checkbox" id="mailAsMe" type="checkbox" name="mailAsMe" value="true" #if ($!action.emailOptions.mailAsMe) checked="checked" #end />
+					<label for="mailAsMe">$action.i18n.getText("issuemail.form.options.as.me")</label>
+					<div class="description">$action.i18n.getText("issuemail.form.options.as.me.desc")</div>
+				</div>
+				<div class="checkbox">					
+					<input class="checkbox" id="replyToMe" type="checkbox" name="replyToMe" value="true" #if ($!action.emailOptions.replyToMe) checked="checked" #end />
+					<label for="replyToMe">$action.i18n.getText("issuemail.form.options.from.me")</label>
+					<div class="description">$action.i18n.getText("issuemail.form.options.from.me.desc")</div>
+				</div>
+				<fieldset class="group">
+				<div class="radio">
+			    <input class="radio" id="emailFormat_html" name="emailFormat" type="radio" value="html" #if ($!action.emailOptions && $!action.emailOptions.emailFormat == "html") checked="checked" #end />
+			    <label for="formatHtml">$action.i18n.getText("issuemail.form.options.html")</label>			    
+			  </div>
+			  <div class="radio">
+			  	<input class="radio" id="emailFormat_text" name="emailFormat" type="radio" value="text" #if ($!action.emailOptions && $!action.emailOptions.emailFormat == "text") checked="checked" #end />
+			  	<label for="formatText">$action.i18n.getText("issuemail.form.options.text")</label>
+			  </div>
+			  </fieldset>
+			</fieldset>
+			
+			#if($action.bypassCommentAllowed)
+			<div class="field-group">
+				<label for="bypassComment">$action.i18n.getText("issuemail.form.options.bypassComment")</label>
+				<input type="checkbox" name="bypassComment" id="bypassComment" value="true" #if ($!action.emailOptions.bypassComment) checked="checked" #end />											
+			</div>
+			#end
+			<fieldset class="group">
+				<legend><span>$action.i18n.getText("issuemail.form.options.comment.settings")</span></legend>
+				<div class="checkbox">					
+					<input class="checkbox" id="addComments" type="checkbox" name="addComments" value="true" #if ($!action.emailOptions.addComments) checked="checked" #end />
+					<label for="addComments">$action.i18n.getText("issuemail.form.options.add.comments")</label>
+					<div class="description">$action.i18n.getText("issuemail.form.options.add.comments.desc")</div>
+				</div>
+				
+				<div class="field-group">
+					<label for="commentVisibility">$action.i18n.getText("issuemail.form.options.comment.visibility")</label>
+					<select name="commentVisibility" id="commentVisibility">
+						<option value="all">$action.i18n.getText("issuemail.allusers")</option>
+						#if ($action.userRoles.size() > 0)							
+						<optgroup label="$action.i18n.getText("issuemail.roles")">								
+						#foreach($pr in $action.userRoles)
+							<option value="r:$pr.id" #if ($!action.emailOptions.commentVisibility == "r:$pr.id") selected="selected" #end>$pr.name</option>									
+						#end
+						</optgroup>								
+						#end
+						#if ($action.commentVisibilityGroups && $action.userGroups.size() > 0)
+						<optgroup label="$action.i18n.getText("issuemail.groups")">								
+						#foreach($g in $action.userGroups)
+							<option value="g:$g" #if ($!action.emailOptions.commentVisibility == "g:$g") selected="selected" #end>$g</option>									
+						#end
+						</optgroup>
+						#end
+					</select>
+					<div class="description">$action.i18n.getText("issuemail.form.options.comment.visibility.desc")</div>
+				</div>
+				<div class="checkbox">					
+					<input class="checkbox" id="suppressCommentEvent" type="checkbox" name="suppressCommentEvent" value="true" #if ($!action.emailOptions.suppressCommentEvent) checked="checked" #end />
+					<label for="suppressCommentEvent">$action.i18n.getText("issuemail.form.options.comment.suppressevent")</label>
+				</div>
+			</fieldset>
+		</div> <!-- content -->	
+	</div> <!-- content body -->
+</div> <!-- end of options -->

@@ -1,0 +1,53 @@
+jtptestuser@gmail.com
+B*****2***
+
+@jtptestuser
+B*****2***
+
+- visit https://twitter.com/oauth_clients/new to acquire consumer key, and consumer secret in advance
+- create a new application https://dev.twitter.com/apps/new
+
+
+OAuth settings
+
+Access level	 Read and write 
+About the application permission model
+Consumer key	QmZk8j8KMICQfC0dSGXvw
+Consumer secret	mG2h48iRVlh17TRCiJfPD3bcQrwlEKIIphDuM7DyaM
+Request token URL	https://api.twitter.com/oauth/request_token
+Authorize URL	https://api.twitter.com/oauth/authorize
+Access token URL	https://api.twitter.com/oauth/access_token
+Callback URL	None
+Your access token
+
+Use the access token string as your "oauth_token" and the access token secret as your "oauth_token_secret" to sign requests with your own Twitter account. Do not share your oauth_token_secret with anyone.
+
+Access token	718876698-Gbr44cLZY3WsZf8W6DQr4K45lHkBti9ZZ0HKFwuT
+Access token secret	6CABDEO3JNblKDa30ZTeuK0AWOsofCjTvMnvuPRQw
+Access level	Read and write
+
+---------------------
++ configure ekran degisiklikleri (gorsel ve hatalarin ekrana yazdirilmasi)
++ girilen kullanici, projenin gecerlilik kontrolunun yapilmasi
++ properties isimlerinin duzenlenmesi
++ lisans kontrolu eklenecek
++ loglar arttirilmali - tum loglara JTPConstants.LOG_PRE + eklenmesi
+	onException vs lerde on... ifadeleri kaldirilacak
++ listenerin istege bagli calismasi, durdurulup kapatilabilmesi (jira ilk acildiginda konfigürasyon doldurulmamis olabilir, bu yuzden bu madde sart)
++ tweet ile issue yaratildiginda, reply ile comment ekleme denenecek
++ plugin ilk yuklendiginde access tokeln'lar girilmediyse configure sayfasinda listener false hatasi vermeli.
+	Restart ile tekrar yuklenebilmeli
++ uygulama ilk ayaga kalktiginda internet baglantisi yoksa stream edemez.
+	internet yokken aç, sonra interneti açip tweet gönder, restart listener falan de
++ calisirken consumerkey ve consumer secret sildim, listener calisip issue yaratiyor ama workflowdan sonra tweet atilmiyor
++ enter karakteri için özel giris yapmak gerekebilir, velocity de olmuyorsa (\n)
++ yetkisiz kullanicilarin tweet atamamasi saglanmali
++ configuration sayfasinda lisans durumunu da yazmak iyi olur
++ lisans geçersizse configure da dogrudan link verilecek
+	su an soyle yaziyor
+	Your license is invalid, update your license in Administration > plugins > User-installed Plugins > Twitter Plugin for Jira > Configure link 
++ notlar arasina reply sadece FooProjectten gelen tweetlere yapilmalidir. 
+Digerleri icin de yapilabilmesi icin tum reply lar icinde veritabaninda kayit tutmak lazim.
++ sadece follower olanlarin issue yaratabilmesi için konfigrasyon eklenecek, 
+	
+	
