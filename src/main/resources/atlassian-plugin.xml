@@ -11,6 +11,7 @@
     <vendor name="${project.organization.name}" url="${project.organization.url}"/>
     <param name="atlassian-licensing-enabled">true</param>
     <param name="configure.url">/plugins/servlet/com.tuncaysenturk.jira.plugins.plugin-license-compatibility/license</param>
+    <param name="post.install.url">/plugins/servlet/jtp/configure</param>
     <param name="plugin-icon">images/jtp-icon.png</param>
 	<param name="plugin-logo">images/jtp-logo.png</param>
 	<param name="plugin-banner">images/jtp-banner.png</param>

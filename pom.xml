@@ -5,13 +5,13 @@
     <groupId>com.tuncaysenturk.jira.plugins</groupId>
     <artifactId>jira-twitter-plugin</artifactId>
     <version>1.0</version>
-    <description>This is the Jira Twitter Plugin</description>
+    <description>This is the JIRA Twitter Plugin</description>
     <scm>
     </scm>
     <organization>
         <name>Tuncay Senturk</name>
     </organization>
-    <name>Twitter Plugin for Jira</name>
+    <name>Twitter Plugin for JIRA</name>
     <packaging>atlassian-plugin</packaging>
     <dependencies>
         <dependency>
