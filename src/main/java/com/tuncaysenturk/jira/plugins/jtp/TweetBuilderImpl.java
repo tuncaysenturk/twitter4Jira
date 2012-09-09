@@ -71,7 +71,7 @@ public class TweetBuilderImpl implements TweetBuilder {
 		String consumerKey = propGet.getString("consumerKey");
 		String consumerSecret = propGet.getString("consumerSecret");
 		String accessToken = propGet.getString("accessToken");
-		String accessSecret = propGet.getString("accessSecret");
+		String accessSecret = propGet.getString("accessTokenSecret");
 		twitterService.setAccessTokens(consumerKey, consumerSecret, accessToken, accessSecret);
 	}
 

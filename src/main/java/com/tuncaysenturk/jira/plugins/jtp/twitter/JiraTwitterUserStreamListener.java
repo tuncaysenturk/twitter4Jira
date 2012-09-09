@@ -18,15 +18,19 @@ import twitter4j.UserStreamListener;
 import com.atlassian.jira.ComponentManager;
 import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
+import com.opensymphony.module.propertyset.PropertyException;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.Twitter4JHelper;
+import com.tuncaysenturk.jira.plugins.jtp.entity.TweetIssueRel;
 import com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueService;
+import com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService;
 import com.tuncaysenturk.jira.plugins.license.LicenseValidator;
 
 public class JiraTwitterUserStreamListener implements UserStreamListener {
 	private static transient Logger logger = Logger
 			.getLogger(JiraTwitterUserStreamListener.class);
+	private TweetIssueRelService tweetIssueRelService;
 	private JiraTwitterIssueService issueService;
 	private TwitterStream twitterStream;
 	private String screenName;
@@ -36,6 +40,19 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	private Set<Long> followers;
 	private static Long REQUERY_FOLLOWERS_TIMEOUT = 1000L * 60 * 30; // 30 mins to requery followers
 
+	public JiraTwitterUserStreamListener() throws PropertyException, TwitterException {
+		PropertySet propSet = ComponentManager.getComponent(
+				PropertiesManager.class).getPropertySet();
+		initializeTwitter(propSet.getString("consumerKey"),
+				propSet.getString("consumerSecret"),
+				propSet.getString("accessToken"),
+				propSet.getString("accessTokenSecret"));
+	}
+	
+	public void setTweetIssueRelService(TweetIssueRelService tweetIssueRelService) {
+		this.tweetIssueRelService = tweetIssueRelService;
+	}
+	
 	public void setLicenseStorageManager(
 			ThirdPartyPluginLicenseStorageManager licenseStorageManager) {
 		this.licenseStorageManager = licenseStorageManager;
@@ -91,7 +108,7 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 				initializeTwitter(propSet.getString("consumerKey"),
 						propSet.getString("consumerSecret"),
 						propSet.getString("accessToken"),
-						propSet.getString("accessSecret"));
+						propSet.getString("accessTokenSecret"));
 			}
 			if(null == followers || null == lastDateForQueryingFollowers || 
 					System.currentTimeMillis() - lastDateForQueryingFollowers > REQUERY_FOLLOWERS_TIMEOUT) {
@@ -142,13 +159,16 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 			} else if (status.getInReplyToStatusId() > 0) {
 				// this is a reply tweet, so add comment to main issue
 				long statusId = status.getInReplyToStatusId();
-				String issueId = propSet.getString("" + statusId);
+				TweetIssueRel rel = tweetIssueRelService.findTweetIssueRelByTweetStatusId(statusId);
+				Long issueId = null;
+				if (null != rel)
+					issueId = rel.getIssueId();
 				if (null != issueId) {
 					issueService.addComment(userName, status.getUser()
-							.getScreenName(), Long.parseLong(issueId), text);
+							.getScreenName(), issueId, text);
 					// assosiate this tweet with issue,
 					// so that replies to this tweet will be comments to the issue
-					propSet.setString("" + status.getId(), "" + issueId);
+					tweetIssueRelService.persistRelation(issueId, status.getId());
 				}
 			}
 		}

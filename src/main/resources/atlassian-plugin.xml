@@ -10,16 +10,35 @@
     <application-version min="5.0"/>
     <vendor name="${project.organization.name}" url="${project.organization.url}"/>
     <param name="atlassian-licensing-enabled">true</param>
-    <param name="configure.url">/plugins/servlet/com.tuncaysenturk.jira.plugins.plugin-license-compatibility/license</param>
+    <param name="configure.url">/plugins/servlet/jtp/configure</param>
     <param name="post.install.url">/plugins/servlet/jtp/configure</param>
     <param name="plugin-icon">images/jtp-icon.png</param>
 	<param name="plugin-logo">images/jtp-logo.png</param>
 	<param name="plugin-banner">images/jtp-banner.png</param>
   </plugin-info>
   
-  	
+  <ao key="ao-module">
+        <description>The module configuring the Active Objects service used by this plugin</description>
+        <entity>com.tuncaysenturk.jira.plugins.jtp.entity.TweetIssueRel</entity>
+   </ao>
+   
+   <component key="tweetIssueRelationService" name="Tweet ıssue Relation Service" class="com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelServiceImpl">
+	    <interface>com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService</interface>
+	</component>
+   
+   <component-import key="ao" name="Active Objects service"
+		interface="com.atlassian.activeobjects.external.ActiveObjects">
+        <description>Component to access Active Objects functionality from the plugin</description>
+   </component-import>
+   
+   <component key="tx-processor" name="Transactional Annotation Processor"
+	    class="com.atlassian.activeobjects.external.TransactionalAnnotationProcessor">
+	    <decription>Processes @Transactional annotations.</decription>
+	</component>
+  
+  	<resource type="download" name="images/" location="images"/>
 	<web-item key="jira-menu-item" name="${project.name}" section="system.admin/globalsettings" weight="10" application="jira">
-	    <description>Link to Jira Twitter Plugin configuration page</description> 
+	    <description>Link to JIRA Twitter Plugin configuration page</description> 
 	    <label key="jtp.configuration.link" /> 
 	    <link linkId="jtp.configuration.link">/plugins/servlet/jtp/configure</link> 
 	</web-item>
@@ -29,7 +48,7 @@
 	<component key="tweetBuilder" name="Tweet Builder" class="com.tuncaysenturk.jira.plugins.jtp.TweetBuilderImpl">
 	    <interface>com.tuncaysenturk.jira.plugins.jtp.TweetBuilder</interface>
 	</component>
-	<component key="jiraTwitterIssueService" name="Jira Twitter Issue Service" class="com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueServiceImpl">
+	<component key="jiraTwitterIssueService" name="JIRA Twitter Issue Service" class="com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueServiceImpl">
         <interface>com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueService></interface>
     </component>
 	<component key="twitterService" name="Twitter Service" class="com.tuncaysenturk.jira.plugins.jtp.twitter.TwitterServiceImpl">
@@ -38,8 +57,11 @@
 	<component key="twitterStream" name="Twitter Stream Listener" class="com.tuncaysenturk.jira.plugins.jtp.twitter.JiraTwitterStreamImpl">
 	    <interface>com.tuncaysenturk.jira.plugins.jtp.twitter.JiraTwitterStream</interface>
 	</component>
+	<component key="twitterStreamHolder" name="Twitter Stream Holder" class="com.tuncaysenturk.jira.plugins.jtp.twitter.TwitterStreamHolderImpl">
+	    <interface>com.tuncaysenturk.jira.plugins.jtp.twitter.TwitterStreamHolder</interface>
+	</component>
 	<workflow-function key="tweet-post-function" name="Tweet Post Function" i18n-name-key="jtp.postfunction.name" class="com.tuncaysenturk.jira.plugins.jtp.TweetPostFunctionFactory">
-		<description key="jtp.postfunction.description">Jira Twitter Plugin</description>
+		<description key="jtp.postfunction.description">JIRA Twitter Plugin</description>
 	    <function-class>com.tuncaysenturk.jira.plugins.jtp.TweetPostFunction</function-class>
 	    <resource type="velocity" name="view" location="templates/postfunctions/tweet-post-function.vm"/>
 	    <resource type="velocity" name="input-parameters" location="templates/postfunctions/tweet-post-function-input.vm"/>
@@ -66,5 +88,8 @@
   
   <servlet key="jtp-configure-servlet" class="com.tuncaysenturk.jira.plugins.compatibility.servlet.ConfigureServlet">
     <url-pattern>/jtp/configure</url-pattern>
+</servlet>
+<servlet key="jtp-twitter-login-servlet" class="com.tuncaysenturk.jira.plugins.compatibility.servlet.TwitterLoginServlet">
+    <url-pattern>/jtp/configure/twitter</url-pattern>
 </servlet>
 </atlassian-plugin>

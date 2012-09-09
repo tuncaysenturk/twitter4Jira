@@ -7,7 +7,6 @@ import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManag
 public class LicenseValidator {
 
 	public static boolean isValid(ThirdPartyPluginLicenseStorageManager licenseManager) {
-//		return true;
 		try {
 			if (licenseManager.getLicense().isDefined())
 			{

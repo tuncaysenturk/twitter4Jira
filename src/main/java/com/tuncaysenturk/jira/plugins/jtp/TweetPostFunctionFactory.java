@@ -18,7 +18,6 @@ public class TweetPostFunctionFactory extends AbstractWorkflowPluginFactory
 		implements WorkflowPluginFunctionFactory {
 	private WebResourceManager webResourceManager;
 	private ApplicationProperties applicationProperties;
-	private JiraTwitterStream twitterStream;
 
 	public TweetPostFunctionFactory(
 			ApplicationProperties applicationProperties,
@@ -27,24 +26,17 @@ public class TweetPostFunctionFactory extends AbstractWorkflowPluginFactory
 			JiraTwitterStream twitterStream) {
 		this.webResourceManager = webResourceManager;
 		this.applicationProperties = applicationProperties;
-		this.twitterStream = twitterStream;
-		
-		if (!this.twitterStream.isListening())
-			this.twitterStream.streamUser();
 	}
 
 	@Override
 	protected void getVelocityParamsForEdit(Map<String, Object> velocityParams,
 			AbstractDescriptor descriptor) {
 
-		velocityParams.put("emailIssueTo",
-				getDescriptorParam(descriptor, "emailIssueTo", ""));
 		velocityParams.put("tweetMessageTemplate",
 				getDescriptorParam(descriptor, "tweetMessageTemplate", ""));
 
 		getVelocityParamsForInput(velocityParams);
 		VelocityHelper vh = (VelocityHelper) velocityParams.get("action");
-		vh.setEmailIssueTo((String) velocityParams.get("emailIssueTo"));
 		vh.setTweetMessageTemplate((String) velocityParams
 				.get("tweetMessageTemplate"));
 		velocityParams.put("action", vh);

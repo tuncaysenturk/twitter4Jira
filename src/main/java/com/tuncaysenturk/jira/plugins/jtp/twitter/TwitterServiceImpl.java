@@ -8,20 +8,23 @@ import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-import com.atlassian.jira.ComponentManager;
-import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.issue.Issue;
-import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.TweetDefinition;
+import com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService;
 
 public class TwitterServiceImpl implements TwitterService {
 
 	private static transient Logger logger = Logger.getLogger(TwitterServiceImpl.class);
+	private final TweetIssueRelService tweetIssueRelService;
 	private String consumerKey;
 	private String consumerSecret;
 	private String accessToken; 
 	private String accessSecret; 
+	
+	public TwitterServiceImpl(TweetIssueRelService tweetIssueRelService) {
+		this.tweetIssueRelService = tweetIssueRelService;
+	}
 	
 	@Override
 	public boolean tweet(TweetDefinition definition, String message) {
@@ -44,8 +47,7 @@ public class TwitterServiceImpl implements TwitterService {
 	}
 	
 	protected void associateStatusIdWithIssue(Issue issue, long statusId) {
-		PropertySet propSet = ComponentManager.getComponent(PropertiesManager.class).getPropertySet();
-		propSet.setString(""+statusId, ""+issue.getId());
+		tweetIssueRelService.persistRelation(issue.getId(), statusId);
 	}
 
 	@Override

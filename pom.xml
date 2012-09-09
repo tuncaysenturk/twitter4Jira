@@ -4,8 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tuncaysenturk.jira.plugins</groupId>
     <artifactId>jira-twitter-plugin</artifactId>
-    <version>1.0</version>
-    <description>This is the JIRA Twitter Plugin</description>
+    <version>1.1.0</version>
+    <description>Twitter Plugin for JIRA, makes your company more social. Just configure with a Twitter account, then do your basic JIRA updates within Twitter, even though you do not have a VPN or direct connection to your company.</description>
     <scm>
     </scm>
     <organization>
@@ -29,7 +29,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.6</version>
+            <version>4.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -125,6 +125,33 @@
             <artifactId>twitter4j-stream</artifactId>
             <version>2.2.6</version>
         </dependency>
+        <dependency>
+		  	<groupId>com.atlassian.activeobjects</groupId>
+		  	<artifactId>activeobjects-plugin</artifactId>
+		  	<version>${ao.version}</version>
+		  	<scope>provided</scope>
+		</dependency>
+		
+		<dependency>
+		  	<groupId>com.atlassian.activeobjects</groupId>
+		  	<artifactId>activeobjects-test</artifactId>
+		  	<version>${ao.version}</version>
+		  	<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		  	<groupId>hsqldb</groupId>
+		  	<artifactId>hsqldb</artifactId>
+		  	<version>1.8.0.10</version>
+		  	<scope>test</scope>
+		</dependency>
+		
+		<dependency>
+		  	<groupId>org.slf4j</groupId>
+		  	<artifactId>slf4j-simple</artifactId>
+		  	<version>1.6.2</version>
+		  	<scope>test</scope>
+		</dependency>
     </dependencies>
     <build>
         <plugins>
@@ -142,6 +169,21 @@
                         <Import-Package>!twitter4j.internal.http.alternative,!dalvik.system,!com.google.appengine.api.urlfetch,org.slf4j;version="1.5",*;resolution:=optional</Import-Package>
                         <DynamicImport-Package>com.atlassian.upm.api.license.entity;version="2.0.1", com.atlassian.upm.api.license;version="2.0.1", com.atlassian.upm.api.util;version="2.0.1", com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}"</DynamicImport-Package>
                     </instructions>
+                    
+                    <pluginArtifacts>
+            			<pluginArtifact>
+            				<groupId>com.atlassian.activeobjects</groupId>
+            				<artifactId>activeobjects-plugin</artifactId>
+            				<version>${ao.version}</version>
+            			</pluginArtifact>
+            			<pluginArtifact>
+            				<groupId>com.atlassian.activeobjects</groupId>
+            				<artifactId>activeobjects-jira-spi</artifactId>
+            				<version>${ao.version}</version>
+            			</pluginArtifact>
+            		</pluginArtifacts>
+            		<productVersion>${jira.version}</productVersion>
+                    
                     <bundledArtifacts>
                         <bundledArtifact>
                             <groupId>com.atlassian.upm</groupId>
@@ -154,6 +196,7 @@
                             <version>${upm.license.compatibility.version}</version>
                         </bundledArtifact>
                     </bundledArtifacts>
+                    
                 </configuration>
             </plugin>
             <plugin>
@@ -183,11 +226,12 @@
         </plugins>
     </build>
     <properties>
-        <jira.version>5.1</jira.version>
+        <jira.version>5.1.4</jira.version>
         <amps.version>3.10.2</amps.version>
         <jira.data.version>5.0</jira.data.version>
         <upm.license.compatibility.version>2.3</upm.license.compatibility.version>
         <sal.api.version>2.4.0</sal.api.version>
         <atlassian.templaterenderer.version>1.0.5</atlassian.templaterenderer.version>
+        <ao.version>0.19.7</ao.version>
     </properties>
 </project>

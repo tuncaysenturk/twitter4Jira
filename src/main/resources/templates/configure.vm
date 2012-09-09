@@ -5,85 +5,116 @@
     $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
   </head>
   <body>
-  	<h6>$i18n.getText("jtp.configuration.header")</h6>
-  	
- 	#if ($errorMessages && $errorMessages.size() > 0)
- 		<ul> 	
-	  	#foreach ($errorMessage in $errorMessages)
-			<li><font color="red">$errorMessage</font></li>
-		#end
-		</ul>
+  	<img src='$baseUrl/download/resources/plugin.jtp/images/jtp-logo.png'/>
+  	<span style="display:inline-block; vertical-align:middle"><h3> $i18n.getText("jtp.configuration.header")</h3></span>
+	
+	#if ($errorMessages && $errorMessages.size() > 0)
+ 		<div class="aui-message error"><span class="aui-icon icon-error"></span>
+ 			<ul> 	
+			  	#foreach ($errorMessage in $errorMessages)
+					<li><font color="red">$errorMessage</font></li>
+				#end
+			</ul>
+ 		</div>
 	#end
 		        		
     <form id="admin" class="aui" method="post">
     	<table>
     		<tr>
-				<td><label for="time">$i18n.getText("jtp.configuration.license.label")</label></td>
-        		<td>#if($licenseValid)$i18n.getText("jtp.configuration.license.valid") #else $i18n.getText("jtp.configuration.license.invalid"), please <a href="/jira/$licenseServletUrl">update your license</a>#end</td>
+				<td width="40%"><label for="time">$i18n.getText("jtp.configuration.license.label")</label></td>
+        		<td width="60%">#if($licenseValid)$i18n.getText("jtp.configuration.license.valid") #else $i18n.getText("jtp.configuration.license.invalid"), please <a href="/jira/$licenseServletUrl">update your license</a>#end</td>
 	        </tr>
 	        
-    		<tr>
-    			<td><label for="name">$i18n.getText("jtp.configuration.consumerKey.label")</label></td>
-        		<td><input type="text" id="consumerKey" name="consumerKey" class="text" value="#if($consumerKey2)$consumerKey2#end"></input></td>
-        	</tr>
-      		<tr>
-        		<td><label for="time">$i18n.getText("jtp.configuration.consumerSecret.label")</label></td>
-        		<td><input type="text" id="consumerSecret" name="consumerSecret" class="text" value="#if($consumerSecret2)$consumerSecret2#end"></input></td>
-        	</tr>
+	        <tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td width="40%">
+		        	#if($twitterScreenName) 
+		        		$i18n.getText("jtp.configuration.twitter.screenname", $twitterScreenName)
+		        	#else
+		        		$i18n.getText("jtp.configuration.twitter.noTwitterAccountLoggedIn")
+		        	#end
+	        	</td>
+	        	<td width="60%">
+	        		<a href="$servletConfigureTwitter">$i18n.getText("jtp.configuration.twitter.login")</a>
+	        	</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        		<i>For more information please <a target="_blank" href="https://bitbucket.org/tuncaysenturk/jtp/wiki/Home">visit Wiki documentation</a></i>
+	        	</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        		<i>$i18n.getText("jtp.configuration.onlyFollowers.desc")</i>
+	        	</td>
+	        </tr>
+
         	<tr>
-        		<td><label for="time">$i18n.getText("jtp.configuration.accessToken.label")</label></td>
-        		<td><input type="text" id="accessToken" name="accessToken" class="text" value="#if($accessToken2)$accessToken2#end"></input></td>
-        	</tr>
-        	<tr>
-        		<td><label for="time">$i18n.getText("jtp.configuration.accessSecret.label")</label></td>
-        		<td><input type="text" id="accessSecret" name="accessSecret" class="text" value="#if($accessSecret2)$accessSecret2#end"></input></td>
-        	</tr>
-        	<tr>
-        		<td><label for="time">$i18n.getText("jtp.configuration.onlyFollowers.label")</label></td>
-        		<td><input type="checkbox" id="onlyFollowers" name="onlyFollowers" #if($onlyFollowers2)checked#end/></td>
+        		<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.onlyFollowers.label")</label></b></td>
+        		<td width="60%"><input type="checkbox" id="onlyFollowers" name="onlyFollowers" #if($onlyFollowers2)checked#end/></td>
         	</tr>
         	
         	<tr>
-        		<td><label for="time">$i18n.getText("jtp.configuration.project.label")</label></td>
-				<td><select id="projectId" name="projectId" style="width: 200px">
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+        	
+        	<tr>
+	        	<td colspan="2">
+	        		<i>$i18n.getText("jtp.configuration.project.desc")</i>
+	        	</td>
+	        </tr>
+	        
+        	<tr>
+        		<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.project.label")</label></b></td>
+				<td width="60%"><select id="projectId" name="projectId" style="width: 200px">
 						#foreach ($projectItem in $projects)
 		        			<option value="$projectItem.getId()" #if($projectId2 == $projectItem.getId().toString())selected#end>$projectItem.getName()</option>
 		        		#end
 		        	</select>
 	        	</td>
         	</tr>
+        	
+        	<tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
 
 			<tr>
-				<td><label for="time">$i18n.getText("jtp.configuration.defaultReporter.label")</label></td>
-        		<td><input type="text" id="userId" name="userId" class="text" value="#if($userId2)$userId2#end"></input></td>
+	        	<td colspan="2">
+	        		<i>$i18n.getText("jtp.configuration.defaultReporter.desc")</i>
+	        	</td>
+	        </tr>
+					        
+			<tr>
+				<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.defaultReporter.label")</label></b></td>
+        		<td width="60%"><input type="text" id="userId" name="userId" class="text" value="#if($userId2)$userId2#end"></input></td>
 	        </tr>
 	        
 	        <tr>
-				<td><label for="time">$i18n.getText("jtp.configuration.listener.label")</label></td>
-				
-				#set($listenerStatusDesc = "")
-				#if($listenerStatus)
-					#if($isStopStreamingRequest)
-						#set($listenerStatusDesc = $i18n.getText("jtp.configuration.notlistening"))
-					#else
-						#set($listenerStatusDesc = $i18n.getText("jtp.configuration.listening"))
-						#if(!$licenseValid)
-							#set($listenerStatusDesc = $listenerStatusDesc + $i18n.getText("jtp.configuration.listeningButYouHaveLicenseProblem"))
-						#end
-					#end
-				#else
-					#set($listenerStatusDesc = $i18n.getText("jtp.configuration.notlistening"))
-				#end
-				
-				
-        		<td>$listenerStatusDesc  
-        			<a href="$servletUri?action=restart">$i18n.getText("jtp.configuration.restartWorking")</a>&nbsp; 
-        			#if($listenerStatus || $isStopStreamingRequest)<a href="$servletUri?action=stop">$i18n.getText("jtp.configuration.stopWorking")#end</a></td>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
 	        </tr>
 	        
 	        <tr>
-				<td><label for="time">$i18n.getText("jtp.configuration.defaultIssueType.label")</label></td>
-        		<td><select id="issueTypeId" name="issueTypeId" style="width: 200px">
+				<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.defaultIssueType.label")</label></b></td>
+        		<td width="60%"><select id="issueTypeId" name="issueTypeId" style="width: 200px">
 						#foreach ($issueTypeItem in $issueTypes)
 		        			<option value="$issueTypeItem.getId()" #if($issueTypeId2.equals($issueTypeItem.getId().toString()))selected#end>$issueTypeItem.getName()</option>
 		        		#end

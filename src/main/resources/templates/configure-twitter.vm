@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <title>$i18n.getText("jtp.configuration.twitter.menu.header")</title>
+    <meta name="decorator" content="atl.admin" />
+    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+  </head>
+  <body>
+  <table>
+	  <tr>
+		  <td valign="middle">
+			<img src='$baseUrl/download/resources/plugin.jtp/images/jtp-logo.png'/>
+		  </td>
+		  <td valign="middle">
+			<h3>$i18n.getText("jtp.configuration.twitter.header")</h3>  			
+		  </td>
+	  </tr>
+  </table>
+ 	#if ($errorMessages && $errorMessages.size() > 0)
+ 		<div class="aui-message error"><span class="aui-icon icon-error"></span>
+ 			<ul> 	
+			  	#foreach ($errorMessage in $errorMessages)
+					<li><font color="red">$errorMessage</font></li>
+				#end
+			</ul>
+ 		</div>
+	#end
+		        		
+    <form id="twitter-login" class="aui" method="post">
+    	<table>
+    		<tr>
+    			<td colspan="2">
+    				<a href="$servletConfigure">$i18n.getText("jtp.configuration.twitter.backToMainSettings")</a>
+    			</td>
+    		
+    		<tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+	        
+    		<tr>
+				<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.license.label")</label></b></td>
+        		<td width="60%">#if($licenseValid)$i18n.getText("jtp.configuration.license.valid") #else $i18n.getText("jtp.configuration.license.invalid"), please <a href="/jira/$licenseServletUrl">update your license</a>#end</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        	#if($twitterScreenName) 
+	        		$i18n.getText("jtp.configuration.twitter.screenname", $twitterScreenName)
+	        	#else
+	        		$i18n.getText("jtp.configuration.twitter.noTwitterAccountLoggedIn")
+	        	#end
+	        </tr>
+	        
+	        <tr>
+				<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.listener.label")</label></b></td>
+				
+				#set($listenerStatusDesc = "")
+				#set($imageFileName = "working.png")
+				#if($listenerStatus)
+					#if($isStopStreamingRequest)
+						#set($listenerStatusDesc = $i18n.getText("jtp.configuration.notlistening"))
+						#set($imageFileName = "not-working.png")
+					#else
+						#set($listenerStatusDesc = $i18n.getText("jtp.configuration.listening"))
+						#if(!$licenseValid)
+							#set($listenerStatusDesc = $listenerStatusDesc + " " + $i18n.getText("jtp.configuration.listeningButYouHaveLicenseProblem"))
+						#end
+					#end
+				#else
+					#set($listenerStatusDesc = $i18n.getText("jtp.configuration.notlistening"))
+				#end
+				
+				
+        		<td width="60%">
+        			<table>
+        				<tr>
+        					<td><img src='$baseUrl/download/resources/plugin.jtp/images/$imageFileName'/></td>
+        					<td>$listenerStatusDesc</td>
+        				</tr>
+        				<tr>
+        					<td><a href="$servletConfigureTwitter?action=restart">
+        						<img src='$baseUrl/download/resources/plugin.jtp/images/start.png'/>
+        						</a>
+        					</td>
+        					<td><a href="$servletConfigureTwitter?action=restart">
+        						$i18n.getText("jtp.configuration.restartWorking")</a>
+        					</td>
+        				</tr>
+        			#if($listenerStatus || $isStopStreamingRequest)
+	    				<tr>
+        					<td> 
+        						<a href="$servletConfigureTwitter?action=stop">
+        						<img src='$baseUrl/download/resources/plugin.jtp/images/stop.png'/>
+        						</a>
+        					</td>
+        					<td>
+        						<a href="$servletConfigureTwitter?action=stop">
+        						$i18n.getText("jtp.configuration.stopWorking")
+        						</a>
+        					</td>
+        				</tr>
+        			#end
+        			</table>
+        		</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+	        
+	        <tr>
+	        	<td colspan="2">
+	        		<i>$i18n.getText("jtp.configuration.twitter.consumer.desc")
+	        		<br>
+	        		For more information please <a target="_blank" href="https://bitbucket.org/tuncaysenturk/jtp/wiki/Home">visit Wiki documentation</a></i>
+	        	</td>
+	        </tr>
+	        
+    		<tr>
+    			<td width="40%"><b><label for="name">$i18n.getText("jtp.configuration.consumerKey.label")</label></b></td>
+        		<td width="60%"><input type="text" id="consumerKey" name="consumerKey" class="text" value="#if($consumerKey2)$consumerKey2#end"></input></td>
+        	</tr>
+        	
+      		<tr>
+        		<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.consumerSecret.label")</label></b></td>
+        		<td width="60%"><input type="text" id="consumerSecret" name="consumerSecret" class="text" value="#if($consumerSecret2)$consumerSecret2#end"></input></td>
+        	</tr>
+
+        	<tr>
+        		<input type="hidden" name="action" value="login"/>
+        		<td colspan="2"><input type="submit" value="$i18n.getText("jtp.configuration.twitter.submit.caption")" class="button"></td>
+        	</tr>
+        	
+        	<tr>
+	        	<td colspan="2">
+	        		<hr/>
+	        	</td>
+	        </tr>
+        	
+      	</table>
+    </form>
+  </body>
+</html>
