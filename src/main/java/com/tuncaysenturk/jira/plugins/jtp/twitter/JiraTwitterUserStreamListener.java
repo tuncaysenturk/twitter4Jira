@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import twitter4j.DirectMessage;
+import twitter4j.IDs;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.Twitter;
@@ -25,6 +26,7 @@ import com.tuncaysenturk.jira.plugins.jtp.Twitter4JHelper;
 import com.tuncaysenturk.jira.plugins.jtp.entity.TweetIssueRel;
 import com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueService;
 import com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService;
+import com.tuncaysenturk.jira.plugins.jtp.util.ExceptionMessagesUtil;
 import com.tuncaysenturk.jira.plugins.license.LicenseValidator;
 
 public class JiraTwitterUserStreamListener implements UserStreamListener {
@@ -89,15 +91,20 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 			}
 	}
 
-	private boolean isStopTweetingRequestArrived(PropertySet propSet) {
-		return propSet.getBoolean("stopTweeting");
-	}
-
 	private void initializeTwitter(String consumerKey,
 			String consumerSecret,
 			String accessToken,
 			String accessSecret) throws TwitterException {
 		twitter = Twitter4JHelper.initializeTwitter(consumerKey, consumerSecret, accessToken, accessSecret);
+	}
+	
+	public void shutdown() {
+		if (null != twitter)
+			twitter.shutdown();
+		twitter = null;
+		if (null != twitterStream)
+			twitterStream.shutdown();
+		twitterStream = null;
 	}
 
 	private boolean isFollower(long userId) {
@@ -124,23 +131,42 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 			return false;
 		}
 	}
+	
+	/**
+	 * checks whether the listener is alive, by looking up follower list
+	 * @return
+	 */
+	public boolean isAlive() {
+		try {
+			IDs ids = twitter.getFollowersIDs(-1);
+			return (null != ids);
+		} catch (Exception e) {
+			return false;
+		}
+	}
 
 	@Override
 	public void onStatus(Status status) {
 		PropertySet propSet = ComponentManager.getComponent(
 				PropertiesManager.class).getPropertySet();
 		if (!LicenseValidator.isValid(licenseStorageManager))
-			logger.error(JTPConstants.LOG_PRE + "Invalid license");
-		else if (isStopTweetingRequestArrived(propSet))
-			logger.warn(JTPConstants.LOG_PRE + "There is a stop request, so I'll do nothing");
+			logger.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
 		else {
 			logger.info(JTPConstants.LOG_PRE + "onStatus @"
 					+ status.getUser().getScreenName() + " - "
 					+ status.getText());
+			
+			ExceptionMessagesUtil.cleanAllExceptionMessages();
+			
 			checkAndSetScreenName();
-			if (StringUtils.isEmpty(screenName)
-					|| status.getUser().getScreenName().equals(screenName))
+			if (StringUtils.isEmpty(screenName)) {
+				ExceptionMessagesUtil.addExceptionMessage("No Screen name found, please authorize Twitter account!");
 				return;
+			}
+			if (status.getUser().getScreenName().equals(screenName)) {
+				// tweet is mine, do not respond it
+				return;
+			}
 			String text = StringUtils.trim(status.getText().replace(
 					"@" + screenName, ""));
 
@@ -301,6 +327,7 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	public void onException(Exception ex) {
 		logger.error(JTPConstants.LOG_PRE + "onException:" + ex.getMessage(),
 				ex);
+		ExceptionMessagesUtil.addExceptionMessage(ex);
 	}
 
 }

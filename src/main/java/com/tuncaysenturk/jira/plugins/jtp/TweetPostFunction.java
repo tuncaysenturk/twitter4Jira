@@ -5,8 +5,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.atlassian.jira.ComponentManager;
-import com.atlassian.jira.config.properties.PropertiesManager;
 import com.atlassian.jira.issue.MutableIssue;
 import com.atlassian.jira.workflow.function.issue.AbstractJiraFunctionProvider;
 import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
@@ -34,17 +32,11 @@ public class TweetPostFunction extends AbstractJiraFunctionProvider {
 
 		try {
 			if (!LicenseValidator.isValid(licenseStorageManager))
-				log.error(JTPConstants.LOG_PRE + "Invalid license");
+				log.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
 			else {
-				PropertySet propSet = ComponentManager.getComponent(
-						PropertiesManager.class).getPropertySet();
-				if (propSet.getBoolean("stopTweeting"))
-					log.warn(JTPConstants.LOG_PRE + "There is a stop request, so I'll do nothing");
-				else {
-					TweetDefinition tweetDefiniton = buildTweet(issue,
-							transientVars, args, ps);
-					tweetBuilder.buildAndSendTweet(tweetDefiniton);
-				}
+				TweetDefinition tweetDefiniton = buildTweet(issue,
+						transientVars, args, ps);
+				tweetBuilder.buildAndSendTweet(tweetDefiniton);
 			}
 		} catch (Exception e) {
 			log.error(JTPConstants.LOG_PRE + e.getMessage(), e);

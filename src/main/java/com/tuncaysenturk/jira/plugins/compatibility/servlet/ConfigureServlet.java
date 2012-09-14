@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.atlassian.jira.ComponentManager;
@@ -30,6 +31,8 @@ import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManag
 import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.twitter.JiraTwitterStream;
+import com.tuncaysenturk.jira.plugins.jtp.util.ExceptionMessagesUtil;
+import com.tuncaysenturk.jira.plugins.license.LicenseStatus;
 import com.tuncaysenturk.jira.plugins.license.LicenseValidator;
 
 public class ConfigureServlet extends HttpServlet {
@@ -95,18 +98,21 @@ public class ConfigureServlet extends HttpServlet {
 		context.put("servletConfigure", servletConfigure);
 		context.put("servletConfigureTwitter", servletConfigureTwitter);
 		
-		boolean licenseValid = LicenseValidator.isValid(licenseStorageManager);
-		context.put("licenseValid", licenseValid);
-		if (!licenseValid)
-			errorMessages.add(i18nResolver.getText("jtp.configuration.license.invalid"));
+		LicenseStatus licenseStatus = LicenseValidator.getLicenseStatus(licenseStorageManager);
+		context.put("licenseValid", licenseStatus.isValid());
+		context.put("licenseMessage", licenseStatus.getMessage());
+//		if (!licenseValid)
+//			errorMessages.add(i18nResolver.getText("jtp.configuration.license.invalid"));
 		
 		context.put("projects", getProjects());
 		context.put("issueTypes", getIssueTypes());
 		context.put("userId2", propSet.getString("userId"));
 		context.put("projectId2", propSet.getString("projectId"));
 		context.put("issueTypeId2", propSet.getString("issueTypeId"));
-		context.put("isStopStreamingRequest", propSet.getBoolean("stopTweeting"));
 		context.put("onlyFollowers2", propSet.getBoolean("onlyFollowers"));
+		if (null != twitterStream && twitterStream.isAlive())
+			ExceptionMessagesUtil.cleanInternetRelatedExceptionMessages();
+		context.put("exceptionMessages", ExceptionMessagesUtil.getExceptionMessages());
 		context.put("errorMessages", errorMessages);
 		if (null == twitterStream.getTwitterScreenName())
 			errorMessages.add(i18nResolver.getText("jtp.configuration.twitter.noTwitterAccountLoggedIn"));
@@ -167,9 +173,13 @@ public class ConfigureServlet extends HttpServlet {
 		List<String> errorMessages = (List<String>)context.get("errorMessages");
 		if (userManager.getUserProfile(req.getParameter("userId")) == null)
 			errorMessages.add(i18nResolver.getText("jtp.configuration.userid.invalid"));
-		context.put("errorMessages", errorMessages);
-		if (projectManager.getProjectObj(Long.parseLong(req.getParameter("projectId"))) == null)
+		if (!StringUtils.isEmpty(req.getParameter("projectId")) && StringUtils.isNumeric(req.getParameter("projectId")))
 			errorMessages.add(i18nResolver.getText("jtp.configuration.projectId.invalid"));
+		context.put("errorMessages", errorMessages);
+		if (!StringUtils.isEmpty(req.getParameter("projectId")) && StringUtils.isNumeric(req.getParameter("projectId"))) {
+			if (projectManager.getProjectObj(Long.parseLong(req.getParameter("projectId"))) == null)
+				errorMessages.add(i18nResolver.getText("jtp.configuration.projectId.invalid"));
+		}
 		
 		renderer.render(TEMPLATE, context, resp.getWriter());
 

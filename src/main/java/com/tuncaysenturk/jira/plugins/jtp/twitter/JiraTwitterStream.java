@@ -7,5 +7,6 @@ public interface JiraTwitterStream {
 	public abstract boolean isListening();
 	public abstract boolean isValidAccessToken();
 	public abstract String getTwitterScreenName();
+	public abstract boolean isAlive();
 	
 }

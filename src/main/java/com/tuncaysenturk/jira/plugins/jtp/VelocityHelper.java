@@ -19,12 +19,12 @@ public class VelocityHelper
 	return tweetMessageTemplate;
 }
 
-public void setTweetMessageTemplate(String tweetMessageTemplate) {
-	this.tweetMessageTemplate = tweetMessageTemplate;
-}
-
-public void setI18n(I18nHelper i18n) {
-    this.i18n = i18n;
+	public void setTweetMessageTemplate(String tweetMessageTemplate) {
+		this.tweetMessageTemplate = tweetMessageTemplate;
+	}
+	
+	public void setI18n(I18nHelper i18n) {
+	    this.i18n = i18n;
   }
 
 }

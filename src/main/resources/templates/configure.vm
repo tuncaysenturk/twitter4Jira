@@ -2,17 +2,60 @@
   <head>
     <title>$i18n.getText("jtp.configuration.menu.header")</title>
     <meta name="decorator" content="atl.admin" />
+    <style type="text/css">
+    	body{
+			font-family:Arial, Helvetica, sans-serif; 
+			font-size:13px;
+			}
+			.info, .success, .warning, .error, .validation {
+			border: 1px solid;
+			margin: 10px 0px;
+			padding:15px 10px 15px 50px;
+			background-repeat: no-repeat;
+			background-position: 10px center;
+			}
+			.info {
+			color: #00529B;
+			background-color: #BDE5F8;
+			background-image: url('info.png');
+			}
+			.success {
+			color: #4F8A10;
+			background-color: #DFF2BF;
+			background-image:url('success.png');
+			}
+			.warning {
+			color: #9F6000;
+			background-color: #FEEFB3;
+			background-image: url('$baseUrl/download/resources/plugin.jtp/images/jtp-icon.png');
+			}
+			.error {
+			color: #D8000C;
+			background-color: #FFBABA;
+			background-image: url('error.png');
+		}
+    </style>
     $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
   </head>
   <body>
   	<img src='$baseUrl/download/resources/plugin.jtp/images/jtp-logo.png'/>
   	<span style="display:inline-block; vertical-align:middle"><h3> $i18n.getText("jtp.configuration.header")</h3></span>
+
+	<!-- <div class="info, warning, success, error, validation"> yapılabilir -->
 	
-	#if ($errorMessages && $errorMessages.size() > 0)
+	#if ($errorMessages && $errorMessages.size() > 0 || !$licenseValid || $exceptionMessages && !$exceptionMessages.isEmpty())
  		<div class="aui-message error"><span class="aui-icon icon-error"></span>
- 			<ul> 	
+ 			<ul>
+ 				#if (!$licenseValid)
+ 					<li><font color="red">$i18n.getText("jtp.configuration.license.invalid") : $licenseMessage</font></li>
+ 				#end
+ 				
 			  	#foreach ($errorMessage in $errorMessages)
 					<li><font color="red">$errorMessage</font></li>
+				#end
+				
+				#foreach ($exc in $exceptionMessages)
+					<li><font color="red">$exc</font></li>
 				#end
 			</ul>
  		</div>
@@ -22,7 +65,7 @@
     	<table>
     		<tr>
 				<td width="40%"><label for="time">$i18n.getText("jtp.configuration.license.label")</label></td>
-        		<td width="60%">#if($licenseValid)$i18n.getText("jtp.configuration.license.valid") #else $i18n.getText("jtp.configuration.license.invalid"), please <a href="/jira/$licenseServletUrl">update your license</a>#end</td>
+        		<td width="60%">#if($licenseValid)$licenseMessage, <a href="/jira/$licenseServletUrl">Click to see details or update your license</a>#end</td>
 	        </tr>
 	        
 	        <tr>
@@ -41,6 +84,7 @@
 	        	</td>
 	        	<td width="60%">
 	        		<a href="$servletConfigureTwitter">$i18n.getText("jtp.configuration.twitter.login")</a>
+	        		<img title='$i18n.getText("jtp.configuration.twitter.login.desc")' src="/jira/images/icons/ico_help.png" alt="">
 	        	</td>
 	        </tr>
 	        
@@ -59,6 +103,7 @@
 	        <tr>
 	        	<td colspan="2">
 	        		<i>$i18n.getText("jtp.configuration.onlyFollowers.desc")</i>
+	        		<img title='$i18n.getText("jtp.configuration.onlyFollowers.desc.2")' src="/jira/images/icons/ico_help.png" alt="">
 	        	</td>
 	        </tr>
 
@@ -76,6 +121,7 @@
         	<tr>
 	        	<td colspan="2">
 	        		<i>$i18n.getText("jtp.configuration.project.desc")</i>
+	        		<img title='$i18n.getText("jtp.configuration.project.desc.2")' src="/jira/images/icons/ico_help.png" alt="">
 	        	</td>
 	        </tr>
 	        
@@ -103,7 +149,9 @@
 					        
 			<tr>
 				<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.defaultReporter.label")</label></b></td>
-        		<td width="60%"><input type="text" id="userId" name="userId" class="text" value="#if($userId2)$userId2#end"></input></td>
+        		<td width="60%"><input type="text" id="userId" name="userId" class="text" value="#if($userId2)$userId2#end"></input>
+        			<img title='$i18n.getText("jtp.configuration.defaultReporter.desc")' src="/jira/images/icons/ico_help.png" alt="">
+        		</td>
 	        </tr>
 	        
 	        <tr>

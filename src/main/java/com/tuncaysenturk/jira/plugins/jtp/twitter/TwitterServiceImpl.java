@@ -12,6 +12,7 @@ import com.atlassian.jira.issue.Issue;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.TweetDefinition;
 import com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService;
+import com.tuncaysenturk.jira.plugins.jtp.util.ExceptionMessagesUtil;
 
 public class TwitterServiceImpl implements TwitterService {
 
@@ -37,11 +38,13 @@ public class TwitterServiceImpl implements TwitterService {
             twitter.setOAuthConsumer(consumerKey, consumerSecret);
             twitter.setOAuthAccessToken(new AccessToken(accessToken, accessSecret));
             Status status = twitter.updateStatus(message);
+            ExceptionMessagesUtil.cleanAllExceptionMessages();
             logger.info("status id:" + status.getId());
             associateStatusIdWithIssue(definition.getIssueObject(), status.getId());
             return true; 
         } catch (Exception te) {
             logger.error(JTPConstants.LOG_PRE + "Failed to get timeline: ", te);
+            ExceptionMessagesUtil.addExceptionMessage("Failed to get timeline: ",  te);
             return false;
         } 
 	}

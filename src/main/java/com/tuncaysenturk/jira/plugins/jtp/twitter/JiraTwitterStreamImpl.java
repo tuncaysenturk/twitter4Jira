@@ -15,6 +15,7 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueService;
 import com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService;
+import com.tuncaysenturk.jira.plugins.jtp.util.ExceptionMessagesUtil;
 import com.tuncaysenturk.jira.plugins.license.LicenseValidator;
 
 public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTwitterStream{
@@ -24,7 +25,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 	private JiraTwitterIssueService issueService;
 	private ThirdPartyPluginLicenseStorageManager licenseStorageManager;
 	private JiraTwitterUserStreamListener listener;
-	private static TwitterStream twitterStream;
+	private TwitterStream twitterStream;
 	PropertySet propSet;
 	
 	public JiraTwitterStreamImpl(JiraTwitterIssueService issueService,
@@ -38,7 +39,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 	
 	public void startListener() {
 		if (!LicenseValidator.isValid(licenseStorageManager))
-			logger.error(JTPConstants.LOG_PRE + "Invalid license");
+			logger.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
 		else if (null != listener) {
 			// it should not come here
 			// first it has to be stopped  
@@ -46,6 +47,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 					"It has to be stopped before.");
 		} else {
 			twitterStream = new TwitterStreamFactory().getInstance();
+			
 	        try {
 	        	listener = new JiraTwitterUserStreamListener();
 	        	listener.setJiraTwitterStream(twitterStream);
@@ -60,6 +62,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
         			twitterStream.setOAuthAccessToken(accessToken);
 				} catch (IllegalStateException e) {
 					logger.error(JTPConstants.LOG_PRE + "Exception while obtaining access tokens", e);
+					ExceptionMessagesUtil.addExceptionMessage("Exception while obtaining access tokens : ", e);
 				}
 				
 				twitterStream.addListener(listener);
@@ -68,6 +71,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 		        logger.info(JTPConstants.LOG_PRE + "Successfully streaming twitter account");
 			} catch (Exception e) {
 				logger.error(JTPConstants.LOG_PRE + "Error while streaming", e);
+				ExceptionMessagesUtil.addExceptionMessage("Error while streaming : ", e);
 			}
         }
 	}
@@ -97,16 +101,22 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 			logger.error(JTPConstants.LOG_PRE + "Error while getting screen name", e);
 		} catch (TwitterException e) {
 			logger.error(JTPConstants.LOG_PRE + "Error while getting screen name", e);
+			ExceptionMessagesUtil.addExceptionMessage("Error while getting Twitter screen name : ", e);
 		}
 		return null;
 	}
 	
 	public void stopListener() {
 		if (null != twitterStream) {
-			twitterStream.cleanUp();
 	    	twitterStream.shutdown();
 	    	twitterStream = null;
 		}
+		if (null != listener)
+			listener.shutdown();
     	listener = null;
+	}
+	
+	public boolean isAlive() {
+		return (null != listener && listener.isAlive());
 	}
 }

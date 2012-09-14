@@ -11,15 +11,23 @@
 			<img src='$baseUrl/download/resources/plugin.jtp/images/jtp-logo.png'/>
 		  </td>
 		  <td valign="middle">
-			<h3>$i18n.getText("jtp.configuration.twitter.header")</h3>  			
+			<h3>$i18n.getText("jtp.configuration.twitter.header")</h3>
 		  </td>
 	  </tr>
   </table>
- 	#if ($errorMessages && $errorMessages.size() > 0)
+ 	#if ($errorMessages && $errorMessages.size() > 0 || !$licenseValid || $exceptionMessages && !$exceptionMessages.isEmpty())
  		<div class="aui-message error"><span class="aui-icon icon-error"></span>
- 			<ul> 	
+ 			<ul>
+ 				#if (!$licenseValid)
+ 					<li><font color="red">$i18n.getText("jtp.configuration.license.invalid") : $licenseMessage</font></li>
+ 				#end
+ 				
 			  	#foreach ($errorMessage in $errorMessages)
 					<li><font color="red">$errorMessage</font></li>
+				#end
+				
+				#foreach ($exc in $exceptionMessages)
+					<li><font color="red">$exc</font></li>
 				#end
 			</ul>
  		</div>
@@ -40,7 +48,7 @@
 	        
     		<tr>
 				<td width="40%"><b><label for="time">$i18n.getText("jtp.configuration.license.label")</label></b></td>
-        		<td width="60%">#if($licenseValid)$i18n.getText("jtp.configuration.license.valid") #else $i18n.getText("jtp.configuration.license.invalid"), please <a href="/jira/$licenseServletUrl">update your license</a>#end</td>
+				<td width="60%">#if($licenseValid)$licenseMessage, <a href="/jira/$licenseServletUrl">Click to see details or update your license</a>#end</td>
 	        </tr>
 	        
 	        <tr>
@@ -120,7 +128,11 @@
 	        <tr>
 	        	<td colspan="2">
 	        		<i>$i18n.getText("jtp.configuration.twitter.consumer.desc")
+	        			<a href="https://dev.twitter.com/apps/new">https://dev.twitter.com/apps/new</a>$i18n.getText("jtp.configuration.twitter.consumer.desc.2")
 	        		<br>
+	        		$i18n.getText("jtp.configuration.twitter.consumer.desc.3")
+	        		<br>
+	        		$i18n.getText("jtp.configuration.twitter.consumer.desc.4")
 	        		For more information please <a target="_blank" href="https://bitbucket.org/tuncaysenturk/jtp/wiki/Home">visit Wiki documentation</a></i>
 	        	</td>
 	        </tr>

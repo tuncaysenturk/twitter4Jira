@@ -34,6 +34,8 @@ import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.twitter.JiraTwitterStream;
 import com.tuncaysenturk.jira.plugins.jtp.twitter.TwitterStreamHolder;
+import com.tuncaysenturk.jira.plugins.jtp.util.ExceptionMessagesUtil;
+import com.tuncaysenturk.jira.plugins.license.LicenseStatus;
 import com.tuncaysenturk.jira.plugins.license.LicenseValidator;
 
 public class TwitterLoginServlet extends HttpServlet {
@@ -124,9 +126,11 @@ public class TwitterLoginServlet extends HttpServlet {
 				restartListener(req, resp, context);
 			} catch (TwitterException e) {
 				logger.error(JTPConstants.LOG_PRE + "Error while streaming", e);
+				ExceptionMessagesUtil.addExceptionMessage("Error while streaming : ", e);
 			}
 		} else {
-			logger.warn(JTPConstants.LOG_PRE + "User denied OAuth access, plugin will not work properly");
+			logger.warn(JTPConstants.LOG_PRE + "User denied Twitter authorization, plugin will not work properly");
+			ExceptionMessagesUtil.addExceptionMessage("User denied Twitter authorization, plugin will not work properly");
 		}
        	
 	}
@@ -176,16 +180,19 @@ public class TwitterLoginServlet extends HttpServlet {
 		context.put("licenseServletUrl", JTPConstants.URL_LICENSE);
 		context.put("accessToken", propSet.getString("accessToken"));
 		context.put("accessTokenSecret", propSet.getString("accessTokenSecret"));
+		LicenseStatus licenseStatus = LicenseValidator.getLicenseStatus(licenseStorageManager);
+		context.put("licenseValid", licenseStatus.isValid());
+		context.put("licenseMessage", propSet.getString("licenseMessage"));
+		if (null != twitterStream && twitterStream.isAlive())
+			ExceptionMessagesUtil.cleanInternetRelatedExceptionMessages();
+		context.put("exceptionMessages", ExceptionMessagesUtil.getExceptionMessages());
+		
 		if (null == twitterStream.getTwitterScreenName())
 			errorMessages.add(i18nResolver.getText("jtp.configuration.twitter.noTwitterAccountLoggedIn"));
 		else
 			context.put("twitterScreenName", twitterStream.getTwitterScreenName());
 		context.put("listenerStatus", twitterStream.isListening());
 
-		boolean licenseValid = LicenseValidator.isValid(licenseStorageManager);
-		context.put("licenseValid", licenseValid);
-		if (!licenseValid)
-			errorMessages.add(i18nResolver.getText("jtp.configuration.license.invalid"));
 		if (StringUtils.isEmpty(propSet.getString("consumerKey")))
 			errorMessages.add(i18nResolver.getText("jtp.configuration.consumerKey.blank"));
 		else
@@ -260,7 +267,6 @@ public class TwitterLoginServlet extends HttpServlet {
 	private void restartListener(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> context){
 		logger.info(JTPConstants.LOG_PRE + "Trying to stream twitter account");
 		
-		PropertySet propSet = ComponentManager.getComponent(PropertiesManager.class).getPropertySet();
 		if (!twitterStream.isValidAccessToken())
 			logger.error(JTPConstants.LOG_PRE + "Access tokens are not set. Please set parameters from " +
 					"Administration > Plugins > Jira Twitter Plugin Configure section");
@@ -268,7 +274,6 @@ public class TwitterLoginServlet extends HttpServlet {
 			stopListener(req, resp, context, false);
 			twitterStream.startListener();
 			twitterStreamHolder.addTwitterStream(twitterStream);
-			propSet.setBoolean("stopTweeting", false);
 			logger.info(JTPConstants.LOG_PRE + "Successfully listening twitter account for new issues");
 			try {
 				resp.sendRedirect(((URI) context.get("servletConfigureTwitter")).toString());
@@ -280,11 +285,9 @@ public class TwitterLoginServlet extends HttpServlet {
 	
 	private void stopListener(HttpServletRequest req, HttpServletResponse resp, 
 			Map<String, Object> context, boolean redirect) {
-		PropertySet propSet = ComponentManager.getComponent(PropertiesManager.class).getPropertySet();
 		// all streams will be stopped via holder.
 //		twitterStream.stopListener();
 		twitterStreamHolder.removeAllTwitterStreams();
-		propSet.setBoolean("stopTweeting", true);
 		logger.info(JTPConstants.LOG_PRE + "Stopped listening twitter account for new issues");
 		try {
 			if (redirect)
