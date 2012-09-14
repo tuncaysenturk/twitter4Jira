@@ -10,6 +10,7 @@ import com.atlassian.jira.workflow.function.issue.AbstractJiraFunctionProvider;
 import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.opensymphony.workflow.WorkflowException;
+import com.tuncaysenturk.jira.plugins.jtp.util.ExceptionMessagesUtil;
 import com.tuncaysenturk.jira.plugins.license.LicenseValidator;
 
 public class TweetPostFunction extends AbstractJiraFunctionProvider {
@@ -31,9 +32,10 @@ public class TweetPostFunction extends AbstractJiraFunctionProvider {
 		MutableIssue issue = getIssue(transientVars);
 
 		try {
-			if (!LicenseValidator.isValid(licenseStorageManager))
+			if (!LicenseValidator.isValid(licenseStorageManager)) {
 				log.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
-			else {
+				ExceptionMessagesUtil.addLicenseExceptionMessage();
+			} else {
 				TweetDefinition tweetDefiniton = buildTweet(issue,
 						transientVars, args, ps);
 				tweetBuilder.buildAndSendTweet(tweetDefiniton);

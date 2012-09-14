@@ -9,6 +9,7 @@ public class ExceptionMessagesUtil {
 	
 	private static final String UNKNOWN_HOST = "Twitter stream error, check your internet connection"; 
 	private static final String STREAM_CLOSED = "Stream closed.";
+	private static final String INVALID_LICENSE = "Your license is invalid. Please check your license.";
 	
 	public static Set<String> getExceptionMessages() {
 		return exceptionMessages;
@@ -35,6 +36,10 @@ public class ExceptionMessagesUtil {
 	public static void addExceptionMessage(Exception e) {
 		if (!addException(e))
 			exceptionMessages.add(e.getMessage());
+	}
+	
+	public static void addLicenseExceptionMessage() {
+		addExceptionMessage(INVALID_LICENSE);
 	}
 	
 	public static void cleanAllExceptionMessages() {

@@ -38,9 +38,10 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 	}
 	
 	public void startListener() {
-		if (!LicenseValidator.isValid(licenseStorageManager))
+		if (!LicenseValidator.isValid(licenseStorageManager)) {
 			logger.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
-		else if (null != listener) {
+			ExceptionMessagesUtil.addLicenseExceptionMessage();
+		} else if (null != listener) {
 			// it should not come here
 			// first it has to be stopped  
 			logger.warn(JTPConstants.LOG_PRE + "This is another attempt to stream twitter account that has already been streaming by another thread." +
