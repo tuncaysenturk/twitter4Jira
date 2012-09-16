@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tuncaysenturk.jira.plugins</groupId>
     <artifactId>jira-twitter-plugin</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.2</version>
     <description>Twitter Plugin for JIRA, makes your company more social. Just configure with a Twitter account, then do your basic JIRA updates within Twitter, even though you do not have a VPN or direct connection to your company.</description>
     <scm>
     </scm>
@@ -25,18 +25,6 @@
             <artifactId>atlassian-jira</artifactId>
             <version>${jira.version}</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.atlassian.jira</groupId>
-            <artifactId>jira-func-tests</artifactId>
-            <version>${jira.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.upm</groupId>
@@ -138,27 +126,37 @@
 		  	<version>${ao.version}</version>
 		  	<scope>test</scope>
 		</dependency>
-		
 		<dependency>
 		  	<groupId>hsqldb</groupId>
 		  	<artifactId>hsqldb</artifactId>
 		  	<version>1.8.0.10</version>
 		  	<scope>test</scope>
 		</dependency>
-		
 		<dependency>
 		  	<groupId>org.slf4j</groupId>
 		  	<artifactId>slf4j-simple</artifactId>
 		  	<version>1.6.2</version>
 		  	<scope>test</scope>
 		</dependency>
+		<dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-func-tests</artifactId>
+            <version>${jira.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
             <plugin>
                 <groupId>com.atlassian.maven.plugins</groupId>
                 <artifactId>maven-jira-plugin</artifactId>
-                <version>3.8</version>
+                <version>${amps.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                 	<enableFastdev>false</enableFastdev>
@@ -166,8 +164,7 @@
                     <productDataVersion>${jira.data.version}</productDataVersion>
                     <instructions>
                         <Private-Package>com.atlassian.upm.license.storage.lib*</Private-Package>
-                        <Import-Package>!twitter4j.internal.http.alternative,!dalvik.system,!com.google.appengine.api.urlfetch,org.slf4j;version="1.5",*;resolution:=optional</Import-Package>
-                        <DynamicImport-Package>com.atlassian.upm.api.license.entity;version="2.0.1", com.atlassian.upm.api.license;version="2.0.1", com.atlassian.upm.api.util;version="2.0.1", com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}"</DynamicImport-Package>
+                        <Import-Package>com.atlassian.upm.api.license.entity;version="2.0.1", com.atlassian.upm.api.license;version="2.0.1", com.atlassian.upm.api.util;version="2.0.1", com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}", !twitter4j.internal.http.alternative,!dalvik.system,!com.google.appengine.api.urlfetch,org.slf4j;version="1.5",*;resolution:=optional</Import-Package>
                     </instructions>
                     
                     <pluginArtifacts>
@@ -182,6 +179,14 @@
             				<version>${ao.version}</version>
             			</pluginArtifact>
             		</pluginArtifacts>
+            		
+            		<pluginDependencies>
+			            <pluginDependency>
+			                <groupId>com.atlassian.upm</groupId>
+			                <artifactId>plugin-license-storage-plugin</artifactId>
+			            </pluginDependency>
+			        </pluginDependencies>
+            		
             		<productVersion>${jira.version}</productVersion>
                     
                     <bundledArtifacts>

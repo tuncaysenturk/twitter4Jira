@@ -101,8 +101,8 @@ public class ConfigureServlet extends HttpServlet {
 		LicenseStatus licenseStatus = LicenseValidator.getLicenseStatus(licenseStorageManager);
 		context.put("licenseValid", licenseStatus.isValid());
 		context.put("licenseMessage", licenseStatus.getMessage());
-//		if (!licenseValid)
-//			errorMessages.add(i18nResolver.getText("jtp.configuration.license.invalid"));
+		if (licenseStatus.isValid())
+			ExceptionMessagesUtil.cleanLicenseExceptionMessage();
 		
 		context.put("projects", getProjects());
 		context.put("issueTypes", getIssueTypes());

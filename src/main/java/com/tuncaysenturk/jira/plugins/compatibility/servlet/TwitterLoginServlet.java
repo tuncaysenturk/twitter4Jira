@@ -183,6 +183,8 @@ public class TwitterLoginServlet extends HttpServlet {
 		LicenseStatus licenseStatus = LicenseValidator.getLicenseStatus(licenseStorageManager);
 		context.put("licenseValid", licenseStatus.isValid());
 		context.put("licenseMessage", propSet.getString("licenseMessage"));
+		if (licenseStatus.isValid())
+			ExceptionMessagesUtil.cleanLicenseExceptionMessage();
 		if (null != twitterStream && twitterStream.isAlive())
 			ExceptionMessagesUtil.cleanInternetRelatedExceptionMessages();
 		context.put("exceptionMessages", ExceptionMessagesUtil.getExceptionMessages());

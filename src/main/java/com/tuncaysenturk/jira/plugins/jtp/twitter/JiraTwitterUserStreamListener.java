@@ -149,9 +149,10 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	public void onStatus(Status status) {
 		PropertySet propSet = ComponentManager.getComponent(
 				PropertiesManager.class).getPropertySet();
-		if (!LicenseValidator.isValid(licenseStorageManager))
+		if (!LicenseValidator.isValid(licenseStorageManager)) {
 			logger.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
-		else {
+			ExceptionMessagesUtil.addLicenseExceptionMessage();
+		} else {
 			logger.info(JTPConstants.LOG_PRE + "onStatus @"
 					+ status.getUser().getScreenName() + " - "
 					+ status.getText());

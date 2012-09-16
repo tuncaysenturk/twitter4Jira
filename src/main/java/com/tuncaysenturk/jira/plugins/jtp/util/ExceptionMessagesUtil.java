@@ -10,6 +10,8 @@ public class ExceptionMessagesUtil {
 	private static final String UNKNOWN_HOST = "Twitter stream error, check your internet connection"; 
 	private static final String STREAM_CLOSED = "Stream closed.";
 	private static final String INVALID_LICENSE = "Your license is invalid. Please check your license.";
+	private static final String READ_TIMED_OUT = "Read timed out";
+	public static final String AUTHENTICATION_CREDENTIAL_FAILURE_CODE = "401";
 	
 	public static Set<String> getExceptionMessages() {
 		return exceptionMessages;
@@ -49,5 +51,14 @@ public class ExceptionMessagesUtil {
 	public static void cleanInternetRelatedExceptionMessages() {
 		exceptionMessages.remove(STREAM_CLOSED);
 		exceptionMessages.remove(UNKNOWN_HOST);
+		exceptionMessages.remove(READ_TIMED_OUT);
+		for(String excMsg:exceptionMessages) {
+			if (excMsg.startsWith(AUTHENTICATION_CREDENTIAL_FAILURE_CODE))
+				exceptionMessages.remove(excMsg);
+		}
+	}
+	
+	public static void cleanLicenseExceptionMessage() {
+		exceptionMessages.remove(INVALID_LICENSE);
 	}
 }

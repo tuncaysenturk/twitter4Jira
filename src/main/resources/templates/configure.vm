@@ -65,7 +65,9 @@
     	<table>
     		<tr>
 				<td width="40%"><label for="time">$i18n.getText("jtp.configuration.license.label")</label></td>
-        		<td width="60%">#if($licenseValid)$licenseMessage, <a href="/jira/$licenseServletUrl">Click to see details or update your license</a>#end</td>
+        		<td width="60%">#if($licenseValid)$licenseMessage#end
+        			, <a href="/jira/$licenseServletUrl">Click to see details or update your license</a>
+        		</td>
 	        </tr>
 	        
 	        <tr>
