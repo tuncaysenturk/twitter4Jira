@@ -34,8 +34,7 @@ public class JiraTwitterStreamStartup implements LifecycleAware {
 			if (!jiraTwitterStream.isValidAccessToken()) {
 				logger.error(JTPConstants.LOG_PRE + "Access tokens are not set. Please set parameters from " +
 						"Administration > Plugins > Jira Twitter Plugin Configure section");
-				ExceptionMessagesUtil.addExceptionMessage("Access tokens are not set. Please set parameters in " +
-						"Administration > Plugins > Jira Twitter Plugin Configure section");
+				ExceptionMessagesUtil.addAccessTokenNotSetExceptionMessage();
 			} else {
 				jiraTwitterStream.startListener();
 				twitterStreamHolder.addTwitterStream(jiraTwitterStream);

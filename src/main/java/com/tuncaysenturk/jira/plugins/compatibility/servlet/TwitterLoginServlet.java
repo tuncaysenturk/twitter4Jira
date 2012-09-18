@@ -269,10 +269,11 @@ public class TwitterLoginServlet extends HttpServlet {
 	private void restartListener(HttpServletRequest req, HttpServletResponse resp, Map<String, Object> context){
 		logger.info(JTPConstants.LOG_PRE + "Trying to stream twitter account");
 		
-		if (!twitterStream.isValidAccessToken())
+		if (!twitterStream.isValidAccessToken()) {
 			logger.error(JTPConstants.LOG_PRE + "Access tokens are not set. Please set parameters from " +
 					"Administration > Plugins > Jira Twitter Plugin Configure section");
-		else {
+			ExceptionMessagesUtil.addAccessTokenNotSetExceptionMessage();
+		} else {
 			stopListener(req, resp, context, false);
 			twitterStream.startListener();
 			twitterStreamHolder.addTwitterStream(twitterStream);

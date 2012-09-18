@@ -173,7 +173,7 @@ public class ConfigureServlet extends HttpServlet {
 		List<String> errorMessages = (List<String>)context.get("errorMessages");
 		if (userManager.getUserProfile(req.getParameter("userId")) == null)
 			errorMessages.add(i18nResolver.getText("jtp.configuration.userid.invalid"));
-		if (!StringUtils.isEmpty(req.getParameter("projectId")) && StringUtils.isNumeric(req.getParameter("projectId")))
+		if (StringUtils.isEmpty(req.getParameter("projectId")) || !StringUtils.isNumeric(req.getParameter("projectId")))
 			errorMessages.add(i18nResolver.getText("jtp.configuration.projectId.invalid"));
 		context.put("errorMessages", errorMessages);
 		if (!StringUtils.isEmpty(req.getParameter("projectId")) && StringUtils.isNumeric(req.getParameter("projectId"))) {
