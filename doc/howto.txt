@@ -1,0 +1,3 @@
+
+* To try in a clean install of JIRA
+	> atlas-run-standalone --product jira --version 5.0

@@ -29,7 +29,6 @@ import com.atlassian.sal.api.auth.LoginUriProvider;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.templaterenderer.TemplateRenderer;
-import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.twitter.JiraTwitterStream;
@@ -58,7 +57,7 @@ public class TwitterLoginServlet extends HttpServlet {
 	private final UserManager userManager;
 	private final TemplateRenderer renderer;
 	private final I18nResolver i18nResolver;
-	private final ThirdPartyPluginLicenseStorageManager licenseStorageManager;
+	private final LicenseValidator licenseValidator;
 	private JiraTwitterStream twitterStream;
 	private TwitterStreamHolder twitterStreamHolder;
 
@@ -66,7 +65,7 @@ public class TwitterLoginServlet extends HttpServlet {
 			LoginUriProvider loginUriProvider, UserManager userManager,
 			I18nResolver i18nResolver, TemplateRenderer renderer,
 			JiraTwitterStream twitterStream,
-			ThirdPartyPluginLicenseStorageManager licenseStorageManager,
+			LicenseValidator licenseValidator,
 			TwitterStreamHolder twitterStreamHolder) {
 		this.applicationProperties = applicationProperties;
 		this.loginUriProvider = loginUriProvider;
@@ -74,7 +73,7 @@ public class TwitterLoginServlet extends HttpServlet {
 		this.i18nResolver = i18nResolver;
 		this.renderer = renderer;
 		this.twitterStream = twitterStream;
-		this.licenseStorageManager = licenseStorageManager;
+		this.licenseValidator = licenseValidator;
 		this.twitterStreamHolder = twitterStreamHolder;
 	}
 
@@ -180,7 +179,7 @@ public class TwitterLoginServlet extends HttpServlet {
 		context.put("licenseServletUrl", JTPConstants.URL_LICENSE);
 		context.put("accessToken", propSet.getString("accessToken"));
 		context.put("accessTokenSecret", propSet.getString("accessTokenSecret"));
-		LicenseStatus licenseStatus = LicenseValidator.getLicenseStatus(licenseStorageManager);
+		LicenseStatus licenseStatus = licenseValidator.getLicenseStatus();
 		context.put("licenseValid", licenseStatus.isValid());
 		context.put("licenseMessage", propSet.getString("licenseMessage"));
 		if (licenseStatus.isValid())

@@ -47,7 +47,7 @@ public class ConfigureServlet extends HttpServlet {
 	private final I18nResolver i18nResolver;
 	private final ProjectManager projectManager;
 	private final ConstantsManager constantsManager;
-	private final ThirdPartyPluginLicenseStorageManager licenseStorageManager;
+	private final LicenseValidator licenseValidator;
 	private JiraTwitterStream twitterStream;
 
 	public ConfigureServlet(ApplicationProperties applicationProperties,
@@ -58,7 +58,8 @@ public class ConfigureServlet extends HttpServlet {
 			ProjectManager projectManager,
 			ConstantsManager constantsManager,
 			JiraTwitterStream twitterStream,
-			ThirdPartyPluginLicenseStorageManager licenseStorageManager) {
+			ThirdPartyPluginLicenseStorageManager licenseStorageManager,
+			LicenseValidator licenseValidator) {
 		this.applicationProperties = applicationProperties;
 		this.loginUriProvider = loginUriProvider;
 		this.userManager = userManager;
@@ -67,7 +68,7 @@ public class ConfigureServlet extends HttpServlet {
 		this.projectManager = projectManager;
 		this.constantsManager = constantsManager;
 		this.twitterStream = twitterStream;
-		this.licenseStorageManager = licenseStorageManager;
+		this.licenseValidator = licenseValidator;
 	}
 
 	@Override
@@ -98,7 +99,7 @@ public class ConfigureServlet extends HttpServlet {
 		context.put("servletConfigure", servletConfigure);
 		context.put("servletConfigureTwitter", servletConfigureTwitter);
 		
-		LicenseStatus licenseStatus = LicenseValidator.getLicenseStatus(licenseStorageManager);
+		LicenseStatus licenseStatus = licenseValidator.getLicenseStatus();
 		context.put("licenseValid", licenseStatus.isValid());
 		context.put("licenseMessage", licenseStatus.getMessage());
 		if (licenseStatus.isValid())

@@ -18,7 +18,6 @@ import twitter4j.UserStreamListener;
 
 import com.atlassian.jira.ComponentManager;
 import com.atlassian.jira.config.properties.PropertiesManager;
-import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
 import com.opensymphony.module.propertyset.PropertyException;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
@@ -36,7 +35,7 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	private JiraTwitterIssueService issueService;
 	private TwitterStream twitterStream;
 	private String screenName;
-	private ThirdPartyPluginLicenseStorageManager licenseStorageManager;
+	private LicenseValidator licenseValidator;
 	private Twitter twitter;
 	private Long lastDateForQueryingFollowers;
 	private Set<Long> followers;
@@ -55,9 +54,8 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 		this.tweetIssueRelService = tweetIssueRelService;
 	}
 	
-	public void setLicenseStorageManager(
-			ThirdPartyPluginLicenseStorageManager licenseStorageManager) {
-		this.licenseStorageManager = licenseStorageManager;
+	public void setLicenseValidator(LicenseValidator licenseValidator) {
+		this.licenseValidator = licenseValidator;
 	}
 
 	public void setJiraTwitterIssueService(JiraTwitterIssueService issueService) {
@@ -149,7 +147,7 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	public void onStatus(Status status) {
 		PropertySet propSet = ComponentManager.getComponent(
 				PropertiesManager.class).getPropertySet();
-		if (!LicenseValidator.isValid(licenseStorageManager)) {
+		if (!licenseValidator.isValid()) {
 			logger.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
 			ExceptionMessagesUtil.addLicenseExceptionMessage();
 		} else {

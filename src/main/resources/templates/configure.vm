@@ -63,6 +63,9 @@
 		        		
     <form id="admin" class="aui" method="post">
     	<table>
+    		<!--  LICENSE FEATURES
+    		
+    	
     		<tr>
 				<td width="40%"><label for="time">$i18n.getText("jtp.configuration.license.label")</label></td>
         		<td width="60%">#if($licenseValid)$licenseMessage#end
@@ -75,6 +78,8 @@
 	        		<hr/>
 	        	</td>
 	        </tr>
+	        
+	        -->
 	        
 	        <tr>
 	        	<td width="40%">

@@ -22,16 +22,20 @@
         <entity>com.tuncaysenturk.jira.plugins.jtp.entity.TweetIssueRel</entity>
    </ao>
    
-   <component key="tweetIssueRelationService" name="Tweet ıssue Relation Service" class="com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelServiceImpl">
+   	<component key="tweetIssueRelationService" name="Tweet ıssue Relation Service" class="com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelServiceImpl">
 	    <interface>com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService</interface>
 	</component>
+	
+	<component key="licenseValiator" name="License Validator" class="com.tuncaysenturk.jira.plugins.license.MarketplaceLicenseValidatorImpl">
+		<interface>com.tuncaysenturk.jira.plugins.license.LicenseValidator</interface>
+	</component>
    
-   <component-import key="ao" name="Active Objects service"
+   	<component-import key="ao" name="Active Objects service"
 		interface="com.atlassian.activeobjects.external.ActiveObjects">
         <description>Component to access Active Objects functionality from the plugin</description>
-   </component-import>
+   	</component-import>
    
-   <component key="tx-processor" name="Transactional Annotation Processor"
+   	<component key="tx-processor" name="Transactional Annotation Processor"
 	    class="com.atlassian.activeobjects.external.TransactionalAnnotationProcessor">
 	    <decription>Processes @Transactional annotations.</decription>
 	</component>

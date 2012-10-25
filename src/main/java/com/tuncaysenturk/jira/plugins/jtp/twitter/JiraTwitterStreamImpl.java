@@ -10,7 +10,6 @@ import twitter4j.auth.AccessToken;
 
 import com.atlassian.jira.ComponentManager;
 import com.atlassian.jira.config.properties.PropertiesManager;
-import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueService;
@@ -23,22 +22,22 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 	private static transient Logger logger = Logger.getLogger(JiraTwitterStreamImpl.class);
 	private final TweetIssueRelService tweetIssueRelService;
 	private JiraTwitterIssueService issueService;
-	private ThirdPartyPluginLicenseStorageManager licenseStorageManager;
+	private final LicenseValidator licenseValidator;
 	private JiraTwitterUserStreamListener listener;
 	private TwitterStream twitterStream;
 	PropertySet propSet;
 	
 	public JiraTwitterStreamImpl(JiraTwitterIssueService issueService,
-			ThirdPartyPluginLicenseStorageManager licenseStorageManager,
+			LicenseValidator licenseValidator,
 			TweetIssueRelService tweetIssueRelService) {
 		this.issueService = issueService;
-		this.licenseStorageManager = licenseStorageManager;
+		this.licenseValidator = licenseValidator;
 		this.tweetIssueRelService = tweetIssueRelService;
 		propSet = ComponentManager.getComponent(PropertiesManager.class).getPropertySet();
 	}
 	
 	public void startListener() {
-		if (!LicenseValidator.isValid(licenseStorageManager)) {
+		if (!licenseValidator.isValid()) {
 			logger.error(JTPConstants.LOG_PRE + "License problem, see configuration page");
 			ExceptionMessagesUtil.addLicenseExceptionMessage();
 		} else if (null != listener) {
@@ -53,7 +52,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 	        	listener = new JiraTwitterUserStreamListener();
 	        	listener.setJiraTwitterStream(twitterStream);
 	        	listener.setJiraTwitterIssueService(issueService);
-	        	listener.setLicenseStorageManager(licenseStorageManager);
+	        	listener.setLicenseValidator(licenseValidator);
 	        	listener.setTweetIssueRelService(tweetIssueRelService);
 	        	if (null == twitterStream.getConfiguration().getOAuthConsumerKey() || 
 						null == twitterStream.getConfiguration().getOAuthConsumerSecret())

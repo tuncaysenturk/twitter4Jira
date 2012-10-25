@@ -1,0 +1,86 @@
+License3j kurulumu
+---------------------------------
+
+
+Public / Private Key yaratılması
+---------------------------------
+- Anahtarların yaratılması için gpg --gen-key komutu çalıştırılır.
+
+	C:\Users\tuncay>gpg --gen-key
+		.........
+		Your selection? 5
+
+	- RSA tercihi olan 5 seçilir.
+		Your selection? 5
+		RSA keys may be between 1024 and 4096 bits long.
+		What keysize do you want? (2048) 4096
+	
+	- Key is valid for? (0)0  (hiçbir zaman expire olmasın)
+	
+	- Real name: tuncaysenturk
+	
+	- Email ve comment alanları boş bırakılır
+		Real name: tuncaysenturk
+		Email address:
+		Comment:
+		You selected this USER-ID:"tuncaysenturk"
+	
+	- passphrase girilir 
+		You need a Passphrase to protect your secret key.
+		Enter passphrase:9lF2JRA6NXWT0PagEyoT
+		
+	- c:\Users\username\AppData\Roaming\gnupg\ klasörü altında 
+		pubring.gpg ve secring.gpg private ve public key yaratılmıştır. 
+	
+
+Lisans dosyasının oluşturulması
+---------------------------------
+
+- Lisans dosyası içeriği aşağıdaki şekilde hazırlanır.
+		################################################
+		This is the license file of JIRA Enhancer Plugin
+		companyName=Test Company Name
+		maximumNumberOfUsers=100
+		validUntil=2013-10-13
+		serverId=BP8Q-WXN6-SKX3-NB5M
+		################################################
+
+Lisans dosyasının şifrelenmesi
+---------------------------------
+
+- D:\programs\license3j>license3j.bat encode 
+	--license-file=test-license.txt
+ 	--keyring-file="c:\Users\tuncay\AppData\Roaming\gnupg\secring.gpg" 
+ 	--key=tuncaysenturk 
+ 	--password=9lF2JRA6NXWT0PagEyoT 
+ 	--output=test-license.out
+
+Uygulamada yapılması gerekenler
+---------------------------------
+- MarketplaceLicenseValidatorImpl.getLicenseStatus
+	
+	public LicenseStatus getLicenseStatus() {
+		// free version
+		return new LicenseStatus(true, JTPConstants.VALID_LICENSE);
+		// paid version
+		// return getLicenseStatusForMarketPlace();
+	}
+	
+- configure.vm, configure-twitter.vm 
+	- free version için comment out
+	<!--  LICENSE FEATURES
+	- paid version için uncomment
+	<!--  LICENSE FEATURES
+	 
+- atlassian-plugin.xml (licenseValidator)
+	- free version
+		com.tuncaysenturk.jira.plugins.license.MarketplaceLicenseValidatorImpl
+	- paid version
+		// marketplace version		
+		com.tuncaysenturk.jira.plugins.license.MarketplaceLicenseValidatorImpl
+		// private version
+		com.tuncaysenturk.jira.plugins.license.PrivateLicenseValidatorImpl
+	 
+  	<component key="licenseValidator" name="License Validator" class="com.tuncaysenturk.jira.plugins.license.MarketplaceLicenseValidatorImpl">
+		<interface>com.tuncaysenturk.jira.plugins.license.LicenseValidator</interface>
+	</component>	 
