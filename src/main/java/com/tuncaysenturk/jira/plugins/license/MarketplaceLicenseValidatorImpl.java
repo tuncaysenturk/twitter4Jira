@@ -64,10 +64,10 @@ public class MarketplaceLicenseValidatorImpl extends AbstractLicenseValidator {
 	
 	public LicenseStatus getLicenseStatus() {
 		// free version
-		if (isSupportedVersion())
+//		if (isSupportedVersion())
 			return new LicenseStatus(true, JTPConstants.VALID_LICENSE);
-		else
-			return new LicenseStatus(false, JTPConstants.EXPIRED_LICENSE);
+//		else
+//			return new LicenseStatus(false, JTPConstants.EXPIRED_LICENSE);
 		// paid version
 		// return getLicenseStatusForMarketPlace();
 	}

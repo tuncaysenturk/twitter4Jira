@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tuncaysenturk.jira.plugins</groupId>
     <artifactId>jira-twitter-plugin</artifactId>
-    <version>1.1.4</version>
+    <version>1.2.0</version>
     <description>Twitter Plugin for JIRA, makes your company more social. Just configure with a Twitter account, then do your basic JIRA updates within Twitter, even though you do not have a VPN or direct connection to your company.</description>
     <scm>
     </scm>
@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>com.atlassian.jira</groupId>
-            <artifactId>atlassian-jira</artifactId>
+            <artifactId>jira-core</artifactId>
             <version>${jira.version}</version>
             <scope>provided</scope>
         </dependency>
@@ -242,9 +242,9 @@
         </plugins>
     </build>
     <properties>
-        <jira.version>5.1.4</jira.version>
+        <jira.version>6.0</jira.version>
         <amps.version>3.10.2</amps.version>
-        <jira.data.version>5.0</jira.data.version>
+        <jira.data.version>6.0</jira.data.version>
         <upm.license.compatibility.version>2.3</upm.license.compatibility.version>
         <sal.api.version>2.4.0</sal.api.version>
         <atlassian.templaterenderer.version>1.0.5</atlassian.templaterenderer.version>
