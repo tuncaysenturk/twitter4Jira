@@ -9,7 +9,7 @@
     </bundle-instructions>
     <application-version min="5.0"/>
     <vendor name="${project.organization.name}" url="${project.organization.url}"/>
-    <param name="atlassian-licensing-enabled">true</param>
+    <param name="atlassian-licensing-enabled">false</param>
     <param name="configure.url">/plugins/servlet/jtp/configure</param>
     <param name="post.install.url">/plugins/servlet/jtp/configure</param>
     <param name="plugin-icon">images/jtp-icon.png</param>

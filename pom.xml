@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.tuncaysenturk.jira.plugins</groupId>
     <artifactId>jira-twitter-plugin</artifactId>
-    <version>1.2.0</version>
+    <version>1.3.0</version>
     <description>Twitter Plugin for JIRA, makes your company more social. Just configure with a Twitter account, then do your basic JIRA updates within Twitter, even though you do not have a VPN or direct connection to your company.</description>
     <scm>
     </scm>
