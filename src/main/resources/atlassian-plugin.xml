@@ -17,6 +17,12 @@
 	<param name="plugin-banner">images/jtp-banner.png</param>
   </plugin-info>
   
+  	<resource type="download" name="jep-style.css" location="assets/css/jep-style.css"/>
+  	<resource type="download" name="jquery.js" location="assets/js/jquery.js"/>
+	<resource type="download" name="jquery-ui.js" location="assets/js/jquery-ui.js"/>
+	<resource type="download" name="jquery-numeric.js" location="assets/js/jquery-numeric.js"/>
+	<resource type="download" name="jquery-ui.css" location="assets/css/jquery-ui.css"/>
+  
   <ao key="ao-module">
         <description>The module configuring the Active Objects service used by this plugin</description>
         <entity>com.tuncaysenturk.jira.plugins.jtp.entity.TweetIssueRel</entity>
@@ -26,7 +32,7 @@
 	    <interface>com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService</interface>
 	</component>
 	
-	<component key="licenseValiator" name="License Validator" class="com.tuncaysenturk.jira.plugins.license.MarketplaceLicenseValidatorImpl">
+	<component key="licenseValidator" name="License Validator" class="com.tuncaysenturk.jira.plugins.license.MarketplaceLicenseValidatorImpl">
 		<interface>com.tuncaysenturk.jira.plugins.license.LicenseValidator</interface>
 	</component>
    
@@ -41,12 +47,16 @@
 	</component>
   
   	<resource type="download" name="images/" location="images"/>
-	<web-item key="jira-menu-item" name="${project.name}" section="system.admin/globalsettings" weight="10" application="jira">
-	    <description>Link to JIRA Twitter Plugin configuration page</description> 
-	    <label key="jtp.configuration.link" /> 
-	    <link linkId="jtp.configuration.link">/plugins/servlet/jtp/configure</link> 
+  	
+  	<web-section key="jtp_links_section" name="JTP Links Main Section" location="admin_plugins_menu" weight="10">
+  		<label>Twitter Plugin for JIRA</label>
+  	</web-section>
+  	
+	<web-item key="jtp.configuration.link" name="Configuration" section="admin_plugins_menu/jtp_links_section" weight="10">
+	    <label>Configure</label>
+	    <link linkId="jep.configuration.link">/plugins/servlet/jtp/configure</link>
 	</web-item>
-
+	
 	<component key="twitterStreamStartup" class="com.tuncaysenturk.jira.plugins.jtp.twitter.startup.JiraTwitterStreamStartup" public="true"
                interface="com.atlassian.sal.api.lifecycle.LifecycleAware" />
 	<component key="tweetBuilder" name="Tweet Builder" class="com.tuncaysenturk.jira.plugins.jtp.TweetBuilderImpl">

@@ -1,0 +1,371 @@
+.page_title{
+        float: left;
+        width: 100%;
+        margin: 75px 0 0 0;
+        color: #ec6144;
+        font-weight: bold;
+        font-size: 25px;
+}
+
+.page_title span{
+	display: inline-block;
+	vertical-align: middle;
+	margin: 13px 0 0 16px;
+}
+.page_title img{
+	float: left;
+	width:64px;
+	height:64px;
+}
+
+.page_content{
+    float: left;
+    width: 100%;
+    margin: 20px 0 275px 0;
+    font-size: 13px;
+}
+
+.eachrow{
+	float: left;
+	width: 100%;
+	margin: 13px 0 0 0;
+	padding: 0 0 10px 0;
+	background: #fff;
+	border: 1px solid #f0f0f0;
+	border-radius: 5px;
+}
+
+.head{
+	color: #c32600;
+	font-weight: bold;
+	height: 30px;
+}
+
+.eachrow .owner{
+	float: left;
+	width: 170px;
+	height: 50px;
+	margin: 10px 0 0 10px;
+}
+
+.eachrow .before{
+	float: left;
+	width: 170px;
+	margin: 10px 0 0 20px;
+	font-size: 15px;
+}
+
+.eachrow .action{
+	float: left;
+	width: 130px;
+	height: 50px;
+	margin: 10px 0 0 0;
+}
+
+.eachrow .after{
+	float: left;
+	width: 170px;
+	height: 50px;
+	margin: 10px 0 0 0;
+}
+
+.eachrow .response{
+	float: left;
+	width: 170px;
+	height: 50px;
+	margin: 10px 0 0 0;
+}
+
+.eachrow .inline{
+	vertical-align: middle;
+	height: 50px;
+	margin: 10px 0 0 0;
+	display: inline-block;
+}
+
+.eachrow .inlineuser{
+	height: 20px;
+	margin: 10px 0 0 0;
+}
+
+.eachrow .inlinedate{
+	height: 20px;
+}
+
+.slarow{
+	float: left;
+	width: 100%;
+	margin: 5px 0 0 0;
+	background: #fff;
+	border: 1px solid #f0f0f0;
+	border-radius: 5px;
+}
+
+.slarow .fromstatus{
+	float: left;
+	width: 120px;
+	margin: 5px 0 0 15px;
+}
+
+.slarow .tostatus{
+	float: left;
+	width: 120px;
+	margin: 5px 0 0 20px;
+	font-size: 15px;
+}
+
+.slarow .slavalue{
+	float: left;
+	margin: 5px 0 0 20px;
+}
+.slarow .slavaluebox{
+	width: 102px;
+	margin: 4px 5px 5px 20px;
+	height: 20px;
+	border-color: #Ccc;
+}
+
+.slarow .removecell{
+	float: left;
+	width: 20px;
+	margin: 5px 0 0 10px;
+}
+
+.slarow .removecell img{
+	width: 20px;
+	height: 20px;
+	cursor: pointer;
+}
+
+.slarow .errorcell{
+	float: left;
+	margin: 10px 0 0 20px;
+}
+
+.slarowprototype{
+	display: none;
+}
+
+.mmx {width: 102px; margin: 5px 5px 5px 5px;border-width: 1px;border-style: solid;height: 22px;border-color: #Ccc;}
+.minx {float: right;z-index: 999;text-align: right;font-size: 9px;vertical-align: middle;margin-top: 5px;margin-right:3px;}
+.inputx {z-index: 1005;float: left;border: 0px;width: 50px;background-color: transparent;}
+
+.jep-button{
+	 width: 188px;
+     height: 26px;
+     border: 0 none;
+     border-radius: 3px;
+     color: #fff;
+     font: 14px/normal 'proxima_novalight', Arial, sans-serif;
+     cursor:pointer;
+}
+.submit-button{
+     background: #d04437;  
+}
+
+.add-button{
+     background: rgb(100, 141, 69);
+}
+
+jep-select, .shadowed-div {
+    padding:3px;
+    margin: 0;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:brown;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+.shadowed-text {
+	padding:5px;
+	margin: 0 0 0 20px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 2px 3px 0 #ccc, 0 -1px #fff inset;
+    background: #f8f8f8;
+    color:brown;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+.shadowed-check {
+	padding:5px;
+	margin: 0 0 0 20px;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+    box-shadow: 2px 3px 1px #ccc, 0px -1px #fff inset;
+    background: #f8f8f8;
+    color:brown;
+    border:none;
+    outline:none;
+    display: inline-block;
+    -webkit-appearance:none;
+    -moz-appearance:none;
+    appearance:none;
+    cursor:pointer;
+}
+
+/* Targetting Webkit browsers only. FF will show the dropdown arrow with so much padding. */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+    select {padding-right:18px}
+}
+
+.jep-label {
+	position:relative
+}
+.jep-label:after{
+    content:'<>';
+    font:11px "Consolas", monospace;
+    color:brown;
+    -webkit-transform:rotate(90deg);
+    -moz-transform:rotate(90deg);
+    -ms-transform:rotate(90deg);
+    transform:rotate(90deg);
+    right:8px; top:2px;
+    padding:0 0 2px;
+    border-bottom:1px solid #ddd;
+    position:absolute;
+    pointer-events:none;
+}
+.jep-label:before {
+    content:'';
+    right:6px; top:0px;
+    width:20px; height:20px;
+    background:#f8f8f8;
+    position:absolute;
+    pointer-events:none;
+    display:block;
+}
+
+.m-btn.icn-only{
+	min-width:14px
+}
+
+.m-btn-group{
+	position:relative;
+	display:inline-block;
+	list-style:none;
+	padding:0;
+	margin:0;
+	zoom:1;
+	*display:inline
+}
+
+.config{
+	float: left;
+	width: 100%;
+	margin: 3px 0 0 0;
+	background: #fff;
+	border: 3px solid #f0f0f0;
+	border-radius: 5px;
+}
+
+.config .key{
+	float: left;
+	width: 300px;
+	margin: 3px 0 0 10px;
+}
+
+.config .statusid{
+	float: left;
+	width: 150px;
+	margin: 3px 0 0 20px;
+	font-size: 15px;
+}
+
+.config .check{
+	float: left;
+	width: 130px;
+	margin: 3px 0 0 20px;
+}
+
+
+.success {
+	background-color: #7f8f19;
+	background-image: -moz-linear-gradient(top, #93A11F 0%, #6E8114 100%);
+	background-image: linear-gradient(top, #93A11F 0%, #6E8114 100%);
+	background-image: -o-linear-gradient(top, #93A11F 0%, #6E8114 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #93A11F), color-stop(1, #6E8114));
+	background-image: -webkit-linear-gradient(top, #93A11F 0%, #6E8114 100%);
+	background-image: -ms-linear-gradient(top, #93A11F 0%, #6E8114 100%);
+	border-top: 1px solid #b9c22a;
+}
+
+.success .icon {
+	background: transparent url('images/success.png') no-repeat;
+}
+
+.warning {
+	background-color: #d61c0b;
+	background-image: -moz-linear-gradient(top, #dc220d 0%, #d01609 100%);
+	background-image: linear-gradient(top, #dc220d 0%, #d01609 100%);
+	background-image: -o-linear-gradient(top, #dc220d 0%, #d01609 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #dc220d), color-stop(1, #d01609));
+	background-image: -webkit-linear-gradient(top, #dc220d 0%, #d01609 100%);
+	background-image: -ms-linear-gradient(top, #dc220d 0%, #d01609 100%);
+	border-top: 1px solid #ee3314;
+}
+.warning .icon {
+	background: transparent url('images/warning.png') no-repeat;
+}
+
+.close {
+	display:block;
+	height:14px;
+	width:14px;
+	background:transparent url('images/close_icon.png') no-repeat;
+	position:relative;
+	float:right;
+	margin:5px 5px 0px 0px;
+	cursor:pointer;
+}
+
+.dialog {
+	height: 80px;
+	border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	margin-bottom: 20px;
+	color:#ffffff;
+}
+
+.dialog p{
+	float: left;
+	width: 93%;
+}
+
+.dialog .icon {
+	width: 34px;
+	height: 34px;
+	display: block;
+	margin: 12px 14px 0px 14px;
+	float:left;
+}
+
+jep-h4{
+	float: left;
+	width: 90%;
+	margin: 10px 0 0 0;
+}

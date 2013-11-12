@@ -2,7 +2,21 @@
   <head>
     <title>$i18n.getText("jtp.configuration.twitter.menu.header")</title>
     <meta name="decorator" content="atl.admin" />
-    $webResourceManager.requireResource("com.atlassian.auiplugin:ajs")
+    <script src="$baseUrl/download/resources/plugin.jtp/jquery.js"></script>
+  	<script src="$baseUrl/download/resources/plugin.jtp/jquery-ui.js"></script>
+  	<link rel="stylesheet" href="$baseUrl/download/resources/plugin.jtp/jquery-ui.css" />
+  	<link rel="stylesheet" href="$baseUrl/download/resources/plugin.jtp/jep-style.css" />
+  	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			
+			$('.close').click(function() {
+				closeid = $(this).attr('id');
+				$('.'+closeid).hide('slow', 0);
+			});
+		
+		});
+	</script>
   </head>
   <body>
   <table>
@@ -16,18 +30,18 @@
 	  </tr>
   </table>
  	#if ($errorMessages && $errorMessages.size() > 0 || !$licenseValid || $exceptionMessages && !$exceptionMessages.isEmpty())
- 		<div class="aui-message error"><span class="aui-icon icon-error"></span>
+ 		<div class="dialog warning">
  			<ul>
  				#if (!$licenseValid)
- 					<li><font color="red">$i18n.getText("jtp.configuration.license.invalid") : $licenseMessage</font></li>
+ 					<li><font color="white">$i18n.getText("jtp.configuration.license.invalid") : $licenseMessage</font></li>
  				#end
  				
 			  	#foreach ($errorMessage in $errorMessages)
-					<li><font color="red">$errorMessage</font></li>
+					<li><font color="white">$errorMessage</font></li>
 				#end
 				
 				#foreach ($exc in $exceptionMessages)
-					<li><font color="red">$exc</font></li>
+					<li><font color="white">$exc</font></li>
 				#end
 			</ul>
  		</div>

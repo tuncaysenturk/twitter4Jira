@@ -8,9 +8,8 @@ import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.auth.AccessToken;
 
-import com.atlassian.jira.ComponentManager;
-import com.atlassian.jira.config.properties.PropertiesManager;
-import com.opensymphony.module.propertyset.PropertySet;
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.issue.JiraTwitterIssueService;
 import com.tuncaysenturk.jira.plugins.jtp.persist.TweetIssueRelService;
@@ -25,7 +24,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 	private final LicenseValidator licenseValidator;
 	private JiraTwitterUserStreamListener listener;
 	private TwitterStream twitterStream;
-	PropertySet propSet;
+	ApplicationProperties propSet;
 	
 	public JiraTwitterStreamImpl(JiraTwitterIssueService issueService,
 			LicenseValidator licenseValidator,
@@ -33,7 +32,7 @@ public final class JiraTwitterStreamImpl extends StatusAdapter implements JiraTw
 		this.issueService = issueService;
 		this.licenseValidator = licenseValidator;
 		this.tweetIssueRelService = tweetIssueRelService;
-		propSet = ComponentManager.getComponent(PropertiesManager.class).getPropertySet();
+		propSet = ComponentAccessor.getApplicationProperties();
 	}
 	
 	public void startListener() {

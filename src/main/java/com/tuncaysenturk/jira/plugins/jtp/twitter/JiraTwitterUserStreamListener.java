@@ -17,6 +17,8 @@ import twitter4j.UserList;
 import twitter4j.UserStreamListener;
 
 import com.atlassian.jira.ComponentManager;
+import com.atlassian.jira.component.ComponentAccessor;
+import com.atlassian.jira.config.properties.ApplicationProperties;
 import com.atlassian.jira.config.properties.PropertiesManager;
 import com.opensymphony.module.propertyset.PropertyException;
 import com.opensymphony.module.propertyset.PropertySet;
@@ -42,8 +44,7 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	private static Long REQUERY_FOLLOWERS_TIMEOUT = 1000L * 60 * 30; // 30 mins to requery followers
 
 	public JiraTwitterUserStreamListener() throws PropertyException, TwitterException {
-		PropertySet propSet = ComponentManager.getComponent(
-				PropertiesManager.class).getPropertySet();
+		ApplicationProperties propSet = ComponentAccessor.getApplicationProperties();
 		initializeTwitter(propSet.getString("consumerKey"),
 				propSet.getString("consumerSecret"),
 				propSet.getString("accessToken"),
@@ -108,8 +109,7 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 	private boolean isFollower(long userId) {
 		try {
 			if (null == twitter) {
-				PropertySet propSet = ComponentManager.getComponent(
-						PropertiesManager.class).getPropertySet();
+				ApplicationProperties propSet = ComponentAccessor.getApplicationProperties();
 				initializeTwitter(propSet.getString("consumerKey"),
 						propSet.getString("consumerSecret"),
 						propSet.getString("accessToken"),
