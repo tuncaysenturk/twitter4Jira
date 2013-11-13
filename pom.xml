@@ -95,6 +95,7 @@
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-core</artifactId>
             <version>3.0.3</version>
+            <scope>compile</scope>
             <exclusions>
                 <exclusion>
                     <groupId>com.googlecode</groupId>
@@ -106,11 +107,13 @@
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-async</artifactId>
             <version>3.0.3</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-stream</artifactId>
             <version>3.0.3</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.atlassian.activeobjects</groupId>
@@ -172,7 +175,17 @@
                     <productDataVersion>${jira.data.version}</productDataVersion>
                     <instructions>
                         <Private-Package>com.atlassian.upm.license.storage.lib*</Private-Package>
-                        <Import-Package>com.atlassian.upm.api.license.entity;version="2.0.1", com.atlassian.upm.api.license;version="2.0.1", com.atlassian.upm.api.util;version="2.0.1", com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}", twitter4j;version=3.0.3, !twitter4j.internal.http.alternative,!dalvik.system,!com.google.appengine.api.urlfetch,org.slf4j;version="1.5",*;resolution:=optional</Import-Package>
+                        <Import-Package>
+                        	twitter4j*, 
+                        	com.atlassian.upm.api.license.entity;version="2.0.1", 
+                        	com.atlassian.upm.api.license;version="2.0.1", 
+                        	com.atlassian.upm.api.util;version="2.0.1", 
+                        	com.atlassian.upm.license.storage.plugin;version="${upm.license.compatibility.version}", 
+                        	!twitter4j.internal.http.alternative,
+                        	!dalvik.system,
+                        	!com.google.appengine.api.urlfetch,org.slf4j;version="1.5",
+                        	*;resolution:=optional
+                        </Import-Package>
                     </instructions>
                     <pluginArtifacts>
                         <pluginArtifact>

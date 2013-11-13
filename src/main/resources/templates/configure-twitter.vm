@@ -6,19 +6,17 @@
   	<script src="$baseUrl/download/resources/plugin.jtp/jquery-ui.js"></script>
   	<link rel="stylesheet" href="$baseUrl/download/resources/plugin.jtp/jquery-ui.css" />
   	<link rel="stylesheet" href="$baseUrl/download/resources/plugin.jtp/jep-style.css" />
-  	<script type="text/javascript">
-		
+  </head>
+  <body>
+  <script type="text/javascript">
 		$(document).ready(function(){
-			
-			$('.close').click(function() {
+			$('.dialog').click(function() {
 				closeid = $(this).attr('id');
 				$('.'+closeid).hide('slow', 0);
 			});
 		
 		});
 	</script>
-  </head>
-  <body>
   <table>
 	  <tr>
 		  <td valign="middle">
