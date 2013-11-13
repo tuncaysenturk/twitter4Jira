@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 
 import twitter4j.DirectMessage;
 import twitter4j.IDs;
+import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.Twitter;
@@ -327,6 +328,13 @@ public class JiraTwitterUserStreamListener implements UserStreamListener {
 		logger.error(JTPConstants.LOG_PRE + "onException:" + ex.getMessage(),
 				ex);
 		ExceptionMessagesUtil.addExceptionMessage(ex);
+	}
+
+	@Override
+	public void onStallWarning(StallWarning warning) {
+		logger.info(JTPConstants.LOG_PRE + "just logging, onStallWarning message arrived "
+				+ warning);
+		
 	}
 
 }

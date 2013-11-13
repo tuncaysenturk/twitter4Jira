@@ -94,7 +94,7 @@
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-core</artifactId>
-            <version>3.0.5</version>
+            <version>3.0.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.googlecode</groupId>
@@ -105,12 +105,12 @@
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-async</artifactId>
-            <version>3.0.5</version>
+            <version>3.0.3</version>
         </dependency>
         <dependency>
             <groupId>org.twitter4j</groupId>
             <artifactId>twitter4j-stream</artifactId>
-            <version>3.0.5</version>
+            <version>3.0.3</version>
         </dependency>
         <dependency>
             <groupId>com.atlassian.activeobjects</groupId>
@@ -237,7 +237,7 @@
         <jira.version>6.0</jira.version>
         <amps.version>4.2.3</amps.version>
         <jira.data.version>6.0</jira.data.version>
-        <upm.license.compatibility.version>2.3</upm.license.compatibility.version>
+        <upm.license.compatibility.version>2.10</upm.license.compatibility.version>
         <sal.api.version>2.4.0</sal.api.version>
         <atlassian.templaterenderer.version>1.0.5</atlassian.templaterenderer.version>
         <ao.version>0.19.7</ao.version>
