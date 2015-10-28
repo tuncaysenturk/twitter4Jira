@@ -6,8 +6,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import com.atlassian.crowd.embedded.api.User;
-import com.atlassian.jira.ComponentManager;
 import com.atlassian.jira.bc.issue.IssueService;
 import com.atlassian.jira.bc.issue.IssueService.CreateValidationResult;
 import com.atlassian.jira.bc.issue.IssueService.IssueResult;
@@ -17,6 +15,7 @@ import com.atlassian.jira.issue.IssueInputParameters;
 import com.atlassian.jira.issue.IssueInputParametersImpl;
 import com.atlassian.jira.issue.MutableIssue;
 import com.atlassian.jira.security.JiraAuthenticationContext;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.user.util.UserManager;
 import com.atlassian.jira.util.SimpleErrorCollection;
 import com.atlassian.sal.api.message.I18nResolver;
@@ -24,18 +23,21 @@ import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 public class JiraTwitterIssueServiceImpl implements JiraTwitterIssueService {
 
 	private static transient Logger logger = Logger.getLogger(JiraTwitterIssueServiceImpl.class);
-	private IssueService issueService;
-	private CommentService commentService;
-	private JiraAuthenticationContext authenticationContext;
+	private final IssueService issueService;
+	private final CommentService commentService;
+	private final JiraAuthenticationContext authenticationContext;
 	private final UserManager userManager;
 	private final I18nResolver i18nResolver;
 
 
-	public JiraTwitterIssueServiceImpl(UserManager userManager, 
-			I18nResolver i18nResolver,
-			CommentService commentService) {
-		issueService = ComponentManager.getInstance().getIssueService();
-		authenticationContext = ComponentManager.getInstance().getJiraAuthenticationContext();
+	public JiraTwitterIssueServiceImpl(
+			final UserManager userManager, 
+			final I18nResolver i18nResolver,
+			final CommentService commentService,
+			final IssueService issueService,
+			final JiraAuthenticationContext authenticationContext) {
+		this.issueService = issueService;
+		this.authenticationContext = authenticationContext;
 		this.userManager = userManager;
 		this.i18nResolver = i18nResolver;
 		this.commentService = commentService;
@@ -52,7 +54,7 @@ public class JiraTwitterIssueServiceImpl implements JiraTwitterIssueService {
 	}
 	
 	public void addComment(String userName, String screenName, long issueId, String commentString) {
-		User user = userManager.getUser(userName);
+		ApplicationUser user = userManager.getUserByName(userName);
 		authenticationContext.setLoggedInUser(user);
 		Issue issue = issueService.getIssue(user, issueId).getIssue();
 		String comment = commentString +  "\n" + i18nResolver.getText("jtp.comment-issue.footer", screenName);
@@ -61,7 +63,7 @@ public class JiraTwitterIssueServiceImpl implements JiraTwitterIssueService {
 
 	private MutableIssue createIssue(String userName, long projectId, 
 			String screenName, String text, String issueTypeId) {
-		User user = userManager.getUser(userName);
+		ApplicationUser user = userManager.getUserByName(userName);
 		IssueInputParameters issueInputParameters = new IssueInputParametersImpl();
 		issueInputParameters.setProjectId(projectId)
 				.setIssueTypeId(issueTypeId)
@@ -78,7 +80,7 @@ public class JiraTwitterIssueServiceImpl implements JiraTwitterIssueService {
 		return issue;
 	}
 
-	public MutableIssue create(User user, CreateValidationResult createValidationResult) {
+	public MutableIssue create(ApplicationUser user, CreateValidationResult createValidationResult) {
 		MutableIssue issue = null;
 
 		if (createValidationResult.isValid()) {

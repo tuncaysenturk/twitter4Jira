@@ -1,17 +1,17 @@
 package com.tuncaysenturk.jira.plugins.jtp;
 
-import com.atlassian.crowd.embedded.api.User;
 import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.util.I18nHelper;
 
 public class TweetDefinitionImpl implements TweetDefinition {
 	private Issue issue;
-	private User remoteUser;
+	private ApplicationUser remoteUser;
 	private String tweetMessageTemplate;
 	private I18nHelper i18nHelper;
 
 	public TweetDefinitionImpl(Issue issue, 
-			User remoteUser, 
+			ApplicationUser remoteUser, 
 			String tweetMessageTemplate) {
 		this.issue = issue;
 		this.remoteUser = remoteUser;
@@ -26,7 +26,7 @@ public class TweetDefinitionImpl implements TweetDefinition {
 		return this.issue;
 	}
 
-	public User getRemoteUser() {
+	public ApplicationUser getRemoteUser() {
 		return this.remoteUser;
 	}
 

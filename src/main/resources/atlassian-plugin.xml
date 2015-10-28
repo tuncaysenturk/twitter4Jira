@@ -92,13 +92,7 @@
   <component-import key="loginUriProvider" interface="com.atlassian.sal.api.auth.LoginUriProvider"/>
   <component-import key="userManager" interface="com.atlassian.sal.api.user.UserManager"/>
   <component-import key="i18nResolver" interface="com.atlassian.sal.api.message.I18nResolver"/>
-  <component key="thirdPartyPluginLicenseStorageManager" class="com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManagerImpl"/>
-  <component key="pluginLicenseStoragePluginInstaller" class="com.atlassian.upm.license.storage.lib.PluginLicenseStoragePluginInstaller"/>
-  <component key="atlassianMarketplaceUriFactory" class="com.atlassian.upm.license.storage.lib.AtlassianMarketplaceUriFactoryImpl"/>
-  <servlet name="License Servlet" i18n-name-key="license-servlet.name" key="license-servlet" class="com.tuncaysenturk.jira.plugins.compatibility.servlet.LicenseServlet">
-    <description key="license-servlet.description">The License Servlet Plugin</description>
-    <url-pattern>/com.tuncaysenturk.jira.plugins.plugin-license-compatibility/license</url-pattern>
-  </servlet>
+  <component-import key="pluginLicenseValidator" interface="com.atlassian.upm.api.license.PluginLicenseManager" />
   
   <servlet key="jtp-configure-servlet" class="com.tuncaysenturk.jira.plugins.compatibility.servlet.ConfigureServlet">
     <url-pattern>/jtp/configure</url-pattern>

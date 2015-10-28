@@ -41,4 +41,9 @@ public class JiraTwitterStreamStartup implements LifecycleAware {
 			}
 		}
 	}
+	
+	@Override
+	public void onStop() {
+		
+	}
 }

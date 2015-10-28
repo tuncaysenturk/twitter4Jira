@@ -1,7 +1,7 @@
 package com.tuncaysenturk.jira.plugins.jtp;
 
-import com.atlassian.crowd.embedded.api.User;
 import com.atlassian.jira.issue.Issue;
+import com.atlassian.jira.user.ApplicationUser;
 import com.atlassian.jira.util.I18nHelper;
 
 public abstract interface TweetDefinition {
@@ -14,5 +14,5 @@ public abstract interface TweetDefinition {
 
 	public abstract I18nHelper getI18n();
 
-	public abstract User getRemoteUser();
+	public abstract ApplicationUser getRemoteUser();
 }

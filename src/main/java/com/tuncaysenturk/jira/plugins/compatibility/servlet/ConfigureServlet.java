@@ -23,11 +23,11 @@ import com.atlassian.jira.issue.issuetype.IssueType;
 import com.atlassian.jira.project.Project;
 import com.atlassian.jira.project.ProjectManager;
 import com.atlassian.sal.api.ApplicationProperties;
+import com.atlassian.sal.api.UrlMode;
 import com.atlassian.sal.api.auth.LoginUriProvider;
 import com.atlassian.sal.api.message.I18nResolver;
 import com.atlassian.sal.api.user.UserManager;
 import com.atlassian.templaterenderer.TemplateRenderer;
-import com.atlassian.upm.license.storage.lib.ThirdPartyPluginLicenseStorageManager;
 import com.opensymphony.module.propertyset.PropertySet;
 import com.tuncaysenturk.jira.plugins.jtp.JTPConstants;
 import com.tuncaysenturk.jira.plugins.jtp.twitter.JiraTwitterStream;
@@ -58,7 +58,6 @@ public class ConfigureServlet extends HttpServlet {
 			ProjectManager projectManager,
 			ConstantsManager constantsManager,
 			JiraTwitterStream twitterStream,
-			ThirdPartyPluginLicenseStorageManager licenseStorageManager,
 			LicenseValidator licenseValidator) {
 		this.applicationProperties = applicationProperties;
 		this.loginUriProvider = loginUriProvider;
@@ -74,7 +73,7 @@ public class ConfigureServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		if (userManager.getRemoteUsername() == null) {
+		if (userManager.getRemoteUser() == null) {
 			redirectToLogin(req, resp);
 			return;
 		} else if (!hasAdminPermission()) {
@@ -89,13 +88,13 @@ public class ConfigureServlet extends HttpServlet {
 
 	private Map<String, Object> initVelocityContext(HttpServletResponse resp) {
 		resp.setContentType("text/html;charset=utf-8");
-		URI servletConfigure = URI.create(applicationProperties.getBaseUrl() + JTPConstants.URL_CONFIGURE);
-		URI servletConfigureTwitter = URI.create(applicationProperties.getBaseUrl() + JTPConstants.URL_CONFIGURE_TWITTER);
+		URI servletConfigure = URI.create(applicationProperties.getBaseUrl(UrlMode.ABSOLUTE) + JTPConstants.URL_CONFIGURE);
+		URI servletConfigureTwitter = URI.create(applicationProperties.getBaseUrl(UrlMode.ABSOLUTE) + JTPConstants.URL_CONFIGURE_TWITTER);
 
 		List<String> errorMessages = new ArrayList<String>();
 		PropertySet propSet = ComponentManager.getComponent(PropertiesManager.class).getPropertySet();
 		final Map<String, Object> context = new HashMap<String, Object>();
-		context.put("baseUrl", URI.create(applicationProperties.getBaseUrl()));
+		context.put("baseUrl", URI.create(applicationProperties.getBaseUrl(UrlMode.ABSOLUTE)));
 		context.put("servletConfigure", servletConfigure);
 		context.put("servletConfigureTwitter", servletConfigureTwitter);
 		
